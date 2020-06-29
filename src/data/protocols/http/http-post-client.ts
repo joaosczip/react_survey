@@ -5,5 +5,6 @@ export interface HttpPostClient {
 export namespace HttpPostClient {
   export type Params = {
     url: string;
+    body?: {};
   };
 }
