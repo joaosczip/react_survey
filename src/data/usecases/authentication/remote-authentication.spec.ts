@@ -5,6 +5,7 @@ import { HttpPostClientSpy } from '../../test/mock-http-client';
 import { makeMockAuthentication } from '@/domain/test/mock-authentication';
 import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error';
 import { HttpStatusCode } from '@/data/protocols/http/http-reponse';
+import { UnexpectedError } from '@/domain/errors/unexpected-error';
 
 type SutTypes = {
   sut: RemoteAuthentication;
@@ -40,5 +41,35 @@ describe('RemoteAuthentication', () => {
     });
     const result = sut.auth(makeMockAuthentication());
     await expect(result).rejects.toThrow(new InvalidCredentialsError());
+  });
+  it('should throw UnexpectedError if HttpPostClient returns 400', async () => {
+    const { sut, httpPostClient } = makeSut();
+    jest.spyOn(httpPostClient, 'post').mockImplementationOnce(() => {
+      return Promise.resolve({
+        statusCode: HttpStatusCode.badRequest,
+      });
+    });
+    const result = sut.auth(makeMockAuthentication());
+    await expect(result).rejects.toThrow(new UnexpectedError());
+  });
+  it('should throw UnexpectedError if HttpPostClient returns 500', async () => {
+    const { sut, httpPostClient } = makeSut();
+    jest.spyOn(httpPostClient, 'post').mockImplementationOnce(() => {
+      return Promise.resolve({
+        statusCode: HttpStatusCode.serverError,
+      });
+    });
+    const result = sut.auth(makeMockAuthentication());
+    await expect(result).rejects.toThrow(new UnexpectedError());
+  });
+  it('should throw UnexpectedError if HttpPostClient returns 404', async () => {
+    const { sut, httpPostClient } = makeSut();
+    jest.spyOn(httpPostClient, 'post').mockImplementationOnce(() => {
+      return Promise.resolve({
+        statusCode: HttpStatusCode.notFound,
+      });
+    });
+    const result = sut.auth(makeMockAuthentication());
+    await expect(result).rejects.toThrow(new UnexpectedError());
   });
 });
