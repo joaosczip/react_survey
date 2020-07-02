@@ -39,4 +39,12 @@ export const Form = styled.form`
 
 export const SubmitButton = styled.button`
   margin-top: 24px;
+
+  &:disabled {
+    background-color: ${(props) => props.theme.colors.disabled};
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;

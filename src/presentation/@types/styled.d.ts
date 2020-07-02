@@ -9,6 +9,7 @@ declare module 'styled-components' {
       primary: string;
       primaryDark: string;
       prmaryLigth: string;
+      disabled: string;
     };
   }
 }
