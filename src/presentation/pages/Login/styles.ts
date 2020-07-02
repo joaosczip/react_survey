@@ -37,24 +37,6 @@ export const Form = styled.form`
   }
 `;
 
-export const InputContainer = styled.div`
-  margin-top: 16px;
-  display: flex;
-  position: relative;
-  align-items: center;
-
-  input {
-    flex: 1;
-  }
-
-  span {
-    position: absolute;
-    right: 8px;
-    font-size: 12px;
-    cursor: help;
-  }
-`;
-
 export const SubmitButton = styled.button`
   margin-top: 24px;
 `;
