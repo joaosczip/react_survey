@@ -1,10 +1,9 @@
 import React from 'react';
 
-import logoImg from '@/presentation/assets/logo.svg';
+import LoginHeader from '@/presentation/components/LoginHeader';
 import Spinner from '@/presentation/components/Spinner';
 import {
   Container,
-  Header,
   Form,
   InputContainer,
   SubmitButton,
@@ -15,10 +14,7 @@ import {
 const Login: React.FC = () => {
   return (
     <Container>
-      <Header>
-        <img src={logoImg} />
-        <h1>4Dev - Enquetes para Programadores</h1>
-      </Header>
+      <LoginHeader />
       <Form>
         <h2>Login</h2>
         <InputContainer>

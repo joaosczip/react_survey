@@ -7,23 +7,6 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
-export const Header = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-top: 40px solid ${(props) => props.theme.colors.primaryDark};
-  background-color: ${(props) => props.theme.colors.primary};
-
-  img {
-    margin-top: 40px;
-  }
-
-  h1 {
-    color: ${(props) => props.theme.colors.white};
-    margin: 16px 0 40px;
-  }
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
