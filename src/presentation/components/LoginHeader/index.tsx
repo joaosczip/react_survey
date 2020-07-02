@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import logoImg from '@/presentation/assets/logo.svg';
 import { Container } from './styles';
@@ -12,4 +12,4 @@ const LoginHeader: React.FC = () => {
   );
 };
 
-export default LoginHeader;
+export default memo(LoginHeader);
