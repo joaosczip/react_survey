@@ -136,4 +136,10 @@ describe('LoginPage', () => {
       password,
     });
   });
+  it('should calls Authentication only once', () => {
+    const { authenticationSpy } = makeSut();
+    simulateValidSubmit();
+    simulateValidSubmit();
+    expect(authenticationSpy.callsCount).toBe(1);
+  });
 });
