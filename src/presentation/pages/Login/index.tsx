@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
@@ -30,11 +30,22 @@ const Login: React.FC<Props> = ({ validation }) => {
     });
   }, [state.email, state.password]);
 
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setState({
+        ...state,
+        isLoading: true,
+      });
+    },
+    [setState]
+  );
+
   return (
     <Container>
       <LoginHeader />
       <FormContext.Provider value={{ state, setState }}>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Seu email" />
           <Input type="password" name="password" placeholder="Sua senha" />
