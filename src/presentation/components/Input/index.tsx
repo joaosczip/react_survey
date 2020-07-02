@@ -11,8 +11,6 @@ type InputProps = React.DetailedHTMLProps<
 const Input: React.FC<InputProps> = (props) => {
   const { state, setState } = useContext(FormContext);
 
-  const error = useMemo(() => state[`${props.name}Error`], [state, props]);
-
   const handleEnableInput = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
       event.target.readOnly = false;
@@ -34,10 +32,6 @@ const Input: React.FC<InputProps> = (props) => {
     return 'Error';
   }, []);
 
-  const getTitle = useCallback(() => {
-    return error;
-  }, []);
-
   return (
     <Container>
       <input
@@ -47,7 +41,10 @@ const Input: React.FC<InputProps> = (props) => {
         onFocus={handleEnableInput}
         onChange={handleInputChange}
       />
-      <span data-testid={`${props.name}-status`} title={getTitle()}>
+      <span
+        data-testid={`${props.name}-status`}
+        title={state[`${props.name}Error`]}
+      >
         {getStatus()}
       </span>
     </Container>
