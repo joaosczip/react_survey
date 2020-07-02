@@ -11,26 +11,42 @@ import faker from 'faker';
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { ValidationStub } from '@/presentation/test/mock-validation';
+import { Authentication } from '@/domain/usecases';
+import { AccountModel } from '@/domain/models';
+import { mockAccountModel } from '@/domain/test/mock-account';
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
+  authenticationSpy: AuthenticationSpy;
 };
 
 type SutParams = {
   validationError: string;
 };
 
+class AuthenticationSpy implements Authentication {
+  account = mockAccountModel();
+  params: Authentication.Params;
+
+  async auth(params: Authentication.Params): Promise<AccountModel> {
+    this.params = params;
+    return Promise.resolve(this.account);
+  }
+}
+
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError;
 
+  const authenticationSpy = new AuthenticationSpy();
+
   const sut = render(
     <ThemeProvider>
-      <Login validation={validationStub} />
+      <Login validation={validationStub} authentication={authenticationSpy} />
     </ThemeProvider>
   );
-  return { sut, validationStub };
+  return { sut, validationStub, authenticationSpy };
 };
 
 describe('LoginPage', () => {
@@ -133,5 +149,28 @@ describe('LoginPage', () => {
 
     const spinner = screen.getByTestId('spinner');
     expect(spinner).toBeTruthy();
+  });
+  it('should calls Authentication with correct values', () => {
+    const { authenticationSpy } = makeSut();
+
+    const email = faker.internet.email();
+    const emailInput = screen.getByTestId('email');
+    fireEvent.input(emailInput, {
+      target: { value: email },
+    });
+
+    const password = faker.internet.password();
+    const passwordInput = screen.getByTestId('password');
+    fireEvent.input(passwordInput, {
+      target: { value: password },
+    });
+
+    const submitButton = screen.getByTestId('submit');
+    submitButton.click();
+
+    expect(authenticationSpy.params).toEqual({
+      email,
+      password,
+    });
   });
 });
