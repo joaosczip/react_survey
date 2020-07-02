@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, RenderResult } from '@testing-library/react';
 
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
@@ -12,9 +12,18 @@ const Sut = () => {
   );
 };
 
+type SutTypes = {
+  sut: RenderResult;
+};
+
+const makeSut = (): SutTypes => {
+  const sut = render(<Sut />);
+  return { sut };
+};
+
 describe('LoginPage', () => {
   it('should start with initial state', () => {
-    render(<Sut />);
+    makeSut();
     const errorContainer = screen.getByTestId('error-container');
     expect(errorContainer.childElementCount).toBe(0);
     const submitButton = screen.getByTestId('submit') as HTMLButtonElement;
