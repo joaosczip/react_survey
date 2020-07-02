@@ -6,6 +6,7 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import faker from 'faker';
 
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
@@ -44,16 +45,18 @@ describe('LoginPage', () => {
   });
   it('should calls validation with correct email', () => {
     const { validationSpy } = makeSut();
+    const email = faker.internet.email();
     const emailInput = screen.getByTestId('email');
-    fireEvent.input(emailInput, { target: { value: 'any_email' } });
+    fireEvent.input(emailInput, { target: { value: email } });
     expect(validationSpy.fieldName).toBe('email');
-    expect(validationSpy.fieldValue).toBe('any_email');
+    expect(validationSpy.fieldValue).toBe(email);
   });
   it('should calls validation with correct password', () => {
     const { validationSpy } = makeSut();
+    const password = faker.internet.password();
     const passwordInput = screen.getByTestId('password');
-    fireEvent.input(passwordInput, { target: { value: 'any_password' } });
+    fireEvent.input(passwordInput, { target: { value: password } });
     expect(validationSpy.fieldName).toBe('password');
-    expect(validationSpy.fieldValue).toBe('any_password');
+    expect(validationSpy.fieldValue).toBe(password);
   });
 });
