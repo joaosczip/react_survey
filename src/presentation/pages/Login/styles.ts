@@ -40,18 +40,3 @@ export const Form = styled.form`
 export const SubmitButton = styled.button`
   margin-top: 24px;
 `;
-
-export const ErrorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  div {
-    margin-top: 30px;
-  }
-
-  span {
-    margin-top: 30px;
-    color: ${(props) => props.theme.colors.prmaryLigth};
-  }
-`;

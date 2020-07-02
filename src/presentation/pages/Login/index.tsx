@@ -2,9 +2,9 @@ import React from 'react';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
-import Spinner from '@/presentation/components/Spinner';
 import Input from '@/presentation/components/Input';
-import { Container, Form, SubmitButton, ErrorContainer } from './styles';
+import FormStatus from '@/presentation/components/FormStatus';
+import { Container, Form, SubmitButton } from './styles';
 
 const Login: React.FC = () => {
   return (
@@ -17,10 +17,7 @@ const Login: React.FC = () => {
         <span>Error</span>
         <SubmitButton type="submit">Entrar</SubmitButton>
         <span>Criar conta</span>
-        <ErrorContainer>
-          <Spinner />
-          <span>Erro</span>
-        </ErrorContainer>
+        <FormStatus />
       </Form>
       <Footer />
     </Container>
