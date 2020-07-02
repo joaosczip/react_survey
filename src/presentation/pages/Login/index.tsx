@@ -7,21 +7,21 @@ import FormStatus from '@/presentation/components/FormStatus';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Container, Form, SubmitButton } from './styles';
 
-type StateProps = {
-  isLoading: boolean;
-  errorMessage: string;
-};
-
 const Login: React.FC = () => {
-  const [state] = useState<StateProps>({
+  const [state] = useState({
     isLoading: false,
-    errorMessage: '',
+  });
+
+  const [errorState] = useState({
+    email: 'Campo obrigatório',
+    password: 'Campo obrigatório',
+    main: '',
   });
 
   return (
     <Container>
       <LoginHeader />
-      <FormContext.Provider value={state}>
+      <FormContext.Provider value={{ state, errorState }}>
         <Form>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Seu email" />
