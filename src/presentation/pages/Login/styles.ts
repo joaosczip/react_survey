@@ -73,8 +73,3 @@ export const ErrorContainer = styled.div`
     color: ${(props) => props.theme.colors.prmaryLigth};
   }
 `;
-
-export const Footer = styled.footer`
-  background-color: ${(props) => props.theme.colors.primary};
-  height: 48px;
-`;

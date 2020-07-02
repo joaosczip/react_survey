@@ -1,6 +1,7 @@
 import React from 'react';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
+import Footer from '@/presentation/components/Footer';
 import Spinner from '@/presentation/components/Spinner';
 import {
   Container,
@@ -8,7 +9,6 @@ import {
   InputContainer,
   SubmitButton,
   ErrorContainer,
-  Footer,
 } from './styles';
 
 const Login: React.FC = () => {
