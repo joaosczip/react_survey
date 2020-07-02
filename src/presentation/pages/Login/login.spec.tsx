@@ -1,27 +1,44 @@
 import React from 'react';
-import { render, screen, RenderResult } from '@testing-library/react';
+import {
+  render,
+  screen,
+  RenderResult,
+  cleanup,
+  fireEvent,
+} from '@testing-library/react';
 
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
+import { Validation } from '@/presentation/protocols/validation';
 
-const Sut = () => {
-  return (
-    <ThemeProvider>
-      <Login />
-    </ThemeProvider>
-  );
-};
+class ValidationSpy implements Validation {
+  errorMessage: string;
+  input: object;
+
+  validate(input: object): string {
+    this.input = input;
+    return this.errorMessage;
+  }
+}
 
 type SutTypes = {
   sut: RenderResult;
+  validationSpy: ValidationSpy;
 };
 
 const makeSut = (): SutTypes => {
-  const sut = render(<Sut />);
-  return { sut };
+  const validationSpy = new ValidationSpy();
+  const sut = render(
+    <ThemeProvider>
+      <Login validation={validationSpy} />
+    </ThemeProvider>
+  );
+  return { sut, validationSpy };
 };
 
 describe('LoginPage', () => {
+  afterEach(cleanup);
+
   it('should start with initial state', () => {
     makeSut();
     const errorContainer = screen.getByTestId('error-container');
@@ -34,5 +51,13 @@ describe('LoginPage', () => {
     const passwordStatus = screen.getByTestId('password-status');
     expect(passwordStatus.title).toBe('Campo obrigatório');
     expect(emailStatus.textContent).toBe('Error');
+  });
+  it('should calls validation with correct values', () => {
+    const { validationSpy } = makeSut();
+    const emailInput = screen.getByTestId('email');
+    fireEvent.input(emailInput, { target: { value: 'any_email' } });
+    expect(validationSpy.input).toEqual({
+      email: 'any_email',
+    });
   });
 });
