@@ -64,4 +64,17 @@ describe('LoginPage', () => {
     expect(passwordStatus.title).toBe(validationStub.errorMessage);
     expect(passwordStatus.textContent).toBe('Error');
   });
+  it('should shows valid email state if validation succeds', () => {
+    const { validationStub } = makeSut();
+    validationStub.errorMessage = '';
+
+    const emailInput = screen.getByTestId('email');
+    fireEvent.input(emailInput, {
+      target: { value: faker.internet.email() },
+    });
+
+    const emailStatus = screen.getByTestId('email-status');
+    expect(emailStatus.title).toBe('Tudo certo!');
+    expect(emailStatus.textContent).toBe('OK');
+  });
 });

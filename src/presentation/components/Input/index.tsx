@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { Container } from './styles';
 import FormContext from '@/presentation/contexts/form/form-context';
@@ -10,6 +10,7 @@ type InputProps = React.DetailedHTMLProps<
 
 const Input: React.FC<InputProps> = (props) => {
   const { state, setState } = useContext(FormContext);
+  const error = state[`${props.name}Error`];
 
   const handleEnableInput = useCallback(
     (event: React.FocusEvent<HTMLInputElement>) => {
@@ -28,10 +29,6 @@ const Input: React.FC<InputProps> = (props) => {
     [setState]
   );
 
-  const getStatus = useCallback(() => {
-    return 'Error';
-  }, []);
-
   return (
     <Container>
       <input
@@ -41,11 +38,8 @@ const Input: React.FC<InputProps> = (props) => {
         onFocus={handleEnableInput}
         onChange={handleInputChange}
       />
-      <span
-        data-testid={`${props.name}-status`}
-        title={state[`${props.name}Error`]}
-      >
-        {getStatus()}
+      <span data-testid={`${props.name}-status`} title={error || 'Tudo certo!'}>
+        {error ? 'Error' : 'OK'}
       </span>
     </Container>
   );
