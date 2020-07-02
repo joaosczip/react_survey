@@ -19,5 +19,11 @@ describe('LoginPage', () => {
     expect(errorContainer.childElementCount).toBe(0);
     const submitButton = screen.getByTestId('submit') as HTMLButtonElement;
     expect(submitButton.disabled).toBe(true);
+    const emailStatus = screen.getByTestId('email-status');
+    expect(emailStatus.title).toBe('Campo obrigatório');
+    expect(emailStatus.textContent).toBe('Error');
+    const passwordStatus = screen.getByTestId('password-status');
+    expect(passwordStatus.title).toBe('Campo obrigatório');
+    expect(emailStatus.textContent).toBe('Error');
   });
 });
