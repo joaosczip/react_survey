@@ -19,15 +19,12 @@ const Input: React.FC<InputProps> = (props) => {
     []
   );
 
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setState({
-        ...state,
-        [event.target.name]: event.target.value,
-      });
-    },
-    [setState]
-  );
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   return (
     <Container>

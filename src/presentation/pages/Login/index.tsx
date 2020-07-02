@@ -6,19 +6,21 @@ import Input from '@/presentation/components/Input';
 import FormStatus from '@/presentation/components/FormStatus';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
+import { Authentication } from '@/domain/usecases';
 import { Container, Form, SubmitButton } from './styles';
 
 type Props = {
   validation: Validation;
+  authentication: Authentication;
 };
 
-const Login: React.FC<Props> = ({ validation }) => {
+const Login: React.FC<Props> = ({ validation, authentication }) => {
   const [state, setState] = useState({
     isLoading: false,
     email: '',
     password: '',
     emailError: '',
-    passwordError: 'Campo obrigatório',
+    passwordError: '',
     mainError: '',
   });
 
@@ -31,14 +33,19 @@ const Login: React.FC<Props> = ({ validation }) => {
   }, [state.email, state.password]);
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       setState({
         ...state,
         isLoading: true,
       });
+
+      await authentication.auth({
+        email: state.email,
+        password: state.password,
+      });
     },
-    [setState]
+    [state.email, state.password, setState, authentication]
   );
 
   return (
