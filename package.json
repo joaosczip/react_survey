@@ -6,11 +6,12 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "jest --passWithNoTests --no-cache --runInBand",
-    "test:watch": "yarn test -- --watch",
+    "test:watch": "yarn test -- --watch --silent",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
+    "@testing-library/react": "^10.4.3",
     "@types/axios": "^0.14.0",
     "@types/faker": "^4.1.12",
     "@types/jest": "^26.0.3",
@@ -26,6 +27,7 @@
     "git-commit-msg-linter": "^2.4.4",
     "husky": "^4.2.5",
     "jest": "^26.1.0",
+    "jest-svg-transformer": "^1.0.0",
     "lint-staged": "^10.2.11",
     "ts-jest": "^26.1.1",
     "ts-loader": "^7.0.5",
