@@ -13,10 +13,12 @@ import { Validation } from '@/presentation/protocols/validation';
 
 class ValidationSpy implements Validation {
   errorMessage: string;
-  input: object;
+  fieldName: string;
+  fieldValue: string;
 
-  validate(input: object): string {
-    this.input = input;
+  validate(fieldName: string, fieldValue: string): string {
+    this.fieldName = fieldName;
+    this.fieldValue = fieldValue;
     return this.errorMessage;
   }
 }
@@ -56,16 +58,14 @@ describe('LoginPage', () => {
     const { validationSpy } = makeSut();
     const emailInput = screen.getByTestId('email');
     fireEvent.input(emailInput, { target: { value: 'any_email' } });
-    expect(validationSpy.input).toEqual({
-      email: 'any_email',
-    });
+    expect(validationSpy.fieldName).toBe('email');
+    expect(validationSpy.fieldValue).toBe('any_email');
   });
   it('should calls validation with correct password', () => {
     const { validationSpy } = makeSut();
     const passwordInput = screen.getByTestId('password');
     fireEvent.input(passwordInput, { target: { value: 'any_password' } });
-    expect(validationSpy.input).toEqual({
-      password: 'any_password',
-    });
+    expect(validationSpy.fieldName).toBe('password');
+    expect(validationSpy.fieldValue).toBe('any_password');
   });
 });
