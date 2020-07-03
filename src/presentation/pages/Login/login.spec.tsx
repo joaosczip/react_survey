@@ -142,4 +142,14 @@ describe('LoginPage', () => {
     simulateValidSubmit();
     expect(authenticationSpy.callsCount).toBe(1);
   });
+  it('should not calls Authentication if form is invalid', () => {
+    const { authenticationSpy } = makeSut({
+      validationError: faker.random.words(),
+    });
+    populateEmailField();
+    const form = screen.getByTestId('form') as HTMLFormElement;
+    form.submit();
+
+    expect(authenticationSpy.callsCount).toBe(0);
+  });
 });
