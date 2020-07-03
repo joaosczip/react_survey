@@ -12,6 +12,7 @@ import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { ValidationStub } from '@/presentation/test/mock-validation';
 import { AuthenticationSpy } from '@/presentation/test/mock-authentication';
+import { InvalidCredentialsError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RenderResult;
@@ -151,5 +152,17 @@ describe('LoginPage', () => {
     form.submit();
 
     expect(authenticationSpy.callsCount).toBe(0);
+  });
+  it('should present error if Authentication fails', async () => {
+    const { authenticationSpy } = makeSut();
+    const invalidCredentialsError = new InvalidCredentialsError();
+    jest
+      .spyOn(authenticationSpy, 'auth')
+      .mockReturnValueOnce(Promise.reject(invalidCredentialsError));
+    simulateValidSubmit();
+    const mainError = await screen.findByTestId('main-error');
+    expect(mainError.textContent).toBe(invalidCredentialsError.message);
+    const errorContainer = await screen.findByTestId('error-container');
+    expect(errorContainer.childElementCount).toBe(1);
   });
 });
