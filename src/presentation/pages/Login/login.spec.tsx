@@ -7,6 +7,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 import faker from 'faker';
+import 'jest-localstorage-mock';
 
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
@@ -64,6 +65,7 @@ const populatePasswordField = (password = faker.internet.password()) => {
 
 describe('LoginPage', () => {
   afterEach(cleanup);
+  beforeEach(() => localStorage.clear());
 
   it('should start with initial state', () => {
     const { validationStub } = makeSut({
@@ -164,5 +166,11 @@ describe('LoginPage', () => {
     expect(mainError.textContent).toBe(invalidCredentialsError.message);
     const errorContainer = await screen.findByTestId('error-container');
     expect(errorContainer.childElementCount).toBe(1);
+  });
+  it('should add access token to localstorage on success', async () => {
+    const { authenticationSpy } = makeSut();
+
+    simulateValidSubmit();
+    expect(localStorage.setItem).toHaveBeenCalled();
   });
 });
