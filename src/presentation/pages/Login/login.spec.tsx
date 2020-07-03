@@ -6,6 +6,8 @@ import {
   cleanup,
   fireEvent,
 } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import faker from 'faker';
 import 'jest-localstorage-mock';
 
@@ -25,6 +27,7 @@ type SutParams = {
   validationError: string;
 };
 
+const history = createMemoryHistory();
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError;
@@ -33,7 +36,9 @@ const makeSut = (params?: SutParams): SutTypes => {
 
   const sut = render(
     <ThemeProvider>
-      <Login validation={validationStub} authentication={authenticationSpy} />
+      <Router history={history}>
+        <Login validation={validationStub} authentication={authenticationSpy} />
+      </Router>
     </ThemeProvider>
   );
   return { sut, validationStub, authenticationSpy };
@@ -168,9 +173,16 @@ describe('LoginPage', () => {
     expect(errorContainer.childElementCount).toBe(1);
   });
   it('should add access token to localstorage on success', async () => {
-    const { authenticationSpy } = makeSut();
+    makeSut();
 
     simulateValidSubmit();
     expect(localStorage.setItem).toHaveBeenCalled();
+  });
+  it('should go to SignUp page', () => {
+    makeSut();
+    const signup = screen.getByTestId('signup');
+    signup.click();
+    expect(history.length).toBe(2);
+    expect(history.location.pathname).toBe('/signup');
   });
 });
