@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
@@ -77,7 +78,9 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
           >
             Entrar
           </SubmitButton>
-          <span>Criar conta</span>
+          <Link data-testid="signup" to="/signup">
+            Criar conta
+          </Link>
           <FormStatus />
         </Form>
       </FormContext.Provider>
