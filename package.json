@@ -1,6 +1,6 @@
 {
   "name": "clean-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React App build with TS, SOLID, TDD and Clean Architecture",
   "main": "index.js",
   "license": "MIT",
@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "global": "^4.4.0",
+    "npm-check": "^5.9.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
