@@ -1,6 +1,6 @@
 {
   "name": "clean-react",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React App build with TS, SOLID, TDD and Clean Architecture",
   "main": "index.js",
   "license": "MIT",
