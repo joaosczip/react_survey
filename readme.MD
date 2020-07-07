@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/joaosczip/react_survey.svg?branch=master)](https://travis-ci.org/joaosczip/react_survey)
+[![Coverage Status](https://coveralls.io/repos/github/joaosczip/react_survey/badge.svg)](https://coveralls.io/github/joaosczip/react_survey)
 
 # 4DEV - React Survey for developers
 
