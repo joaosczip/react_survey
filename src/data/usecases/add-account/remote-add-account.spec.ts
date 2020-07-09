@@ -28,4 +28,10 @@ describe('RemoteAddAccount', () => {
     await sut.add(makeAddAccount());
     expect(httpPostClientSpy.url).toBe(url);
   });
+  it('should calls HttpPostClient with correct body', async () => {
+    const { sut, httpPostClientSpy } = makeSut();
+    const body = makeAddAccount();
+    await sut.add(body);
+    expect(httpPostClientSpy.body).toEqual(body);
+  });
 });
