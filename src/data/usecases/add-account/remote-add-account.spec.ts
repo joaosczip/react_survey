@@ -6,7 +6,10 @@ import { AddAccount } from '@/domain/usecases';
 import { AccountModel } from '@/domain/models';
 import { makeAddAccount } from '@/domain/test';
 import { HttpStatusCode } from '@/data/protocols/http';
-import { EmailAddressAlreadyInUseError } from '@/domain/errors';
+import {
+  EmailAddressAlreadyInUseError,
+  UnexpectedError,
+} from '@/domain/errors';
 
 type SutTypes = {
   sut: RemoteAddAccount;
@@ -43,5 +46,14 @@ describe('RemoteAddAccount', () => {
     };
     const result = sut.add(makeAddAccount());
     expect(result).rejects.toThrow(new EmailAddressAlreadyInUseError());
+  });
+  it('should throw UnexpectedError if HttpPostClient returns 400', () => {
+    const { sut, httpPostClientSpy } = makeSut();
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.badRequest,
+    };
+
+    const result = sut.add(makeAddAccount());
+    expect(result).rejects.toThrow(new UnexpectedError());
   });
 });
