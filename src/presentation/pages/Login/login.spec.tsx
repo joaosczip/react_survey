@@ -9,18 +9,21 @@ import {
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import faker from 'faker';
-import 'jest-localstorage-mock';
 
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
-import { ValidationStub } from '@/presentation/test/mock-validation';
-import { AuthenticationSpy } from '@/presentation/test/mock-authentication';
 import { InvalidCredentialsError } from '@/domain/errors';
+import {
+  SaveAccessTokenMock,
+  AuthenticationSpy,
+  ValidationStub,
+} from '@/presentation/test/';
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
   authenticationSpy: AuthenticationSpy;
+  saveAccessTokenMock: SaveAccessTokenMock;
 };
 
 type SutParams = {
@@ -35,15 +38,20 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError;
 
   const authenticationSpy = new AuthenticationSpy();
+  const saveAccessTokenMock = new SaveAccessTokenMock();
 
   const sut = render(
     <ThemeProvider>
       <Router history={history}>
-        <Login validation={validationStub} authentication={authenticationSpy} />
+        <Login
+          validation={validationStub}
+          authentication={authenticationSpy}
+          saveAccessToken={saveAccessTokenMock}
+        />
       </Router>
     </ThemeProvider>
   );
-  return { sut, validationStub, authenticationSpy };
+  return { sut, validationStub, authenticationSpy, saveAccessTokenMock };
 };
 
 const simulateValidSubmit = (
@@ -72,7 +80,6 @@ const populatePasswordField = (password = faker.internet.password()) => {
 
 describe('LoginPage', () => {
   afterEach(cleanup);
-  beforeEach(() => localStorage.clear());
 
   it('should start with initial state', () => {
     const { validationStub } = makeSut({
@@ -173,14 +180,6 @@ describe('LoginPage', () => {
     expect(mainError.textContent).toBe(invalidCredentialsError.message);
     const errorContainer = await screen.findByTestId('error-container');
     expect(errorContainer.childElementCount).toBe(1);
-  });
-  it('should add access token to localstorage on success', async () => {
-    makeSut();
-
-    simulateValidSubmit();
-    expect(localStorage.setItem).toHaveBeenCalled();
-    expect(history.length).toBe(1);
-    expect(history.location.pathname).toBe('/');
   });
   it('should go to SignUp page', () => {
     makeSut();

@@ -7,15 +7,20 @@ import Input from '@/presentation/components/Input';
 import FormStatus from '@/presentation/components/FormStatus';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
-import { Authentication } from '@/domain/usecases';
+import { Authentication, SaveAccessToken } from '@/domain/usecases';
 import { Container, Form, SubmitButton } from './styles';
 
 type Props = {
   validation: Validation;
   authentication: Authentication;
+  saveAccessToken: SaveAccessToken;
 };
 
-const Login: React.FC<Props> = ({ validation, authentication }) => {
+const Login: React.FC<Props> = ({
+  validation,
+  authentication,
+  saveAccessToken,
+}) => {
   const history = useHistory();
   const [state, setState] = useState({
     isLoading: false,
@@ -52,7 +57,8 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
           password: state.password,
         });
 
-        localStorage.setItem('accessToken', accessToken);
+        await saveAccessToken.save(accessToken);
+
         history.replace('/');
       } catch (error) {
         setState({
@@ -62,7 +68,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
         });
       }
     },
-    [state, setState, authentication, localStorage]
+    [state, setState]
   );
 
   return (
