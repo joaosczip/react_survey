@@ -1,7 +1,10 @@
 import { HttpPostClient, HttpStatusCode } from '@/data/protocols/http';
 import { AddAccount } from '@/domain/usecases';
 import { AccountModel } from '@/domain/models';
-import { EmailAddressAlreadyInUseError } from '@/domain/errors';
+import {
+  EmailAddressAlreadyInUseError,
+  UnexpectedError,
+} from '@/domain/errors';
 
 export class RemoteAddAccount implements AddAccount {
   constructor(
@@ -21,6 +24,8 @@ export class RemoteAddAccount implements AddAccount {
     switch (httpResponse.statusCode) {
       case HttpStatusCode.forbidden:
         throw new EmailAddressAlreadyInUseError();
+      case HttpStatusCode.badRequest:
+        throw new UnexpectedError();
       default:
         return null;
     }
