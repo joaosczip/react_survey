@@ -5,6 +5,8 @@ import { HttpPostClientSpy } from '@/data/test';
 import { AddAccount } from '@/domain/usecases';
 import { AccountModel } from '@/domain/models';
 import { makeAddAccount } from '@/domain/test';
+import { HttpStatusCode } from '@/data/protocols/http';
+import { EmailAddressAlreadyInUseError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RemoteAddAccount;
@@ -33,5 +35,13 @@ describe('RemoteAddAccount', () => {
     const body = makeAddAccount();
     await sut.add(body);
     expect(httpPostClientSpy.body).toEqual(body);
+  });
+  it('should throws EmailAddressAlreadyInUseError if HttpPostClient returns 403', () => {
+    const { sut, httpPostClientSpy } = makeSut();
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.forbidden,
+    };
+    const result = sut.add(makeAddAccount());
+    expect(result).rejects.toThrow(new EmailAddressAlreadyInUseError());
   });
 });
