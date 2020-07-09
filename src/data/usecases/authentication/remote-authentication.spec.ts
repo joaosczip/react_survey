@@ -1,7 +1,7 @@
 import faker from 'faker';
 
 import { RemoteAuthentication } from './remote-authentication';
-import { HttpPostClientSpy } from '../../test/mock-http-client';
+import { HttpPostClientSpy } from '../../test/mock-http';
 import {
   makeMockAuthentication,
   mockAccountModel,
