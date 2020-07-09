@@ -56,4 +56,13 @@ describe('RemoteAddAccount', () => {
     const result = sut.add(makeAddAccount());
     expect(result).rejects.toThrow(new UnexpectedError());
   });
+  it('should throw UnexpectedError if HttpPostClient returns 500', () => {
+    const { sut, httpPostClientSpy } = makeSut();
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.serverError,
+    };
+
+    const result = sut.add(makeAddAccount());
+    expect(result).rejects.toThrow(new UnexpectedError());
+  });
 });
