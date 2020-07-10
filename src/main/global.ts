@@ -14,6 +14,7 @@ export default createGlobalStyle`
   }
 
   input[type="password"],
+  input[type="text"],
   input[type="email"] {
     border: 1px solid ${(props) => props.theme.colors.prmaryLigth};
     line-height: 40px;
