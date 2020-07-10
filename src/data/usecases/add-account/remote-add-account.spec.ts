@@ -4,7 +4,7 @@ import { RemoteAddAccount } from './remote-add-account';
 import { HttpPostClientSpy } from '@/data/test';
 import { AddAccount } from '@/domain/usecases';
 import { AccountModel } from '@/domain/models';
-import { makeAddAccount } from '@/domain/test';
+import { makeAddAccount, mockAccountModel } from '@/domain/test';
 import { HttpStatusCode } from '@/data/protocols/http';
 import {
   EmailAddressAlreadyInUseError,
@@ -73,5 +73,15 @@ describe('RemoteAddAccount', () => {
 
     const result = sut.add(makeAddAccount());
     expect(result).rejects.toThrow(new UnexpectedError());
+  });
+  it('should return an AccountModel if HttpPostClient returns 200', async () => {
+    const { sut, httpPostClientSpy } = makeSut();
+    const accountModel = mockAccountModel();
+    httpPostClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: accountModel,
+    };
+    const result = await sut.add(makeAddAccount());
+    expect(result).toEqual(accountModel);
   });
 });
