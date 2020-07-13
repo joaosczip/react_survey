@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
@@ -9,10 +8,19 @@ import FormContext from '@/presentation/contexts/form/form-context';
 import { Container, Form, SubmitButton } from './styles';
 
 const SignUp: React.FC = () => {
+  const [state] = useState({
+    isLoading: false,
+    mainError: '',
+    nameError: 'Campo obrigatório',
+    emailError: 'Campo obrigatório',
+    passwordError: 'Campo obrigatório',
+    passwordConfirmationError: 'Campo obrigatório',
+  });
+
   return (
     <Container>
       <LoginHeader />
-      <FormContext.Provider value={{ state: {} }}>
+      <FormContext.Provider value={{ state }}>
         <Form onSubmit={() => {}}>
           <h2>Criar conta</h2>
           <Input type="text" name="name" placeholder="Seu nome" />
@@ -23,8 +31,10 @@ const SignUp: React.FC = () => {
             name="passwordConfirmation"
             placeholder="Confirme sua senha"
           />
-          <SubmitButton type="submit">Confirmar</SubmitButton>
-          <Link to="/login">Voltar para Login</Link>
+          <SubmitButton disabled data-testid="submit" type="submit">
+            Confirmar
+          </SubmitButton>
+          <span>Voltar para Login</span>
           <FormStatus />
         </Form>
       </FormContext.Provider>
