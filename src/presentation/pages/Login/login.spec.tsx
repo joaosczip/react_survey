@@ -17,7 +17,7 @@ import {
   SaveAccessTokenMock,
   AuthenticationSpy,
   ValidationStub,
-} from '@/presentation/test/';
+} from '@/presentation/test';
 
 type SutTypes = {
   sut: RenderResult;
