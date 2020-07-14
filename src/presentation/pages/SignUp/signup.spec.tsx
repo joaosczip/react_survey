@@ -70,4 +70,34 @@ describe('SignUp Page', () => {
     expect(nameStatus.title).toBe(validationError);
     expect(nameStatus.textContent).toBe('Error');
   });
+  it('should show valid name state if Validation succeds', () => {
+    makeSut();
+    helper.populateField('name');
+    const nameStatus = screen.getByTestId('name-status');
+    expect(nameStatus.title).toBe('Tudo certo!');
+    expect(nameStatus.textContent).toBe('OK');
+  });
+  it('should show valid email state if Validation succeds', () => {
+    makeSut();
+    helper.populateField('email');
+    const emailStatus = screen.getByTestId('email-status');
+    expect(emailStatus.title).toBe('Tudo certo!');
+    expect(emailStatus.textContent).toBe('OK');
+  });
+  it('should show valid password state if Validation succeds', () => {
+    makeSut();
+    helper.populateField('password');
+    const passwordStatus = screen.getByTestId('password-status');
+    expect(passwordStatus.title).toBe('Tudo certo!');
+    expect(passwordStatus.textContent).toBe('OK');
+  });
+  it('should show valid passwordConfirmation state if Validation succeds', () => {
+    makeSut();
+    helper.populateField('passwordConfirmation');
+    const passwordConfirmationStatus = screen.getByTestId(
+      'passwordConfirmation-status'
+    );
+    expect(passwordConfirmationStatus.title).toBe('Tudo certo!');
+    expect(passwordConfirmationStatus.textContent).toBe('OK');
+  });
 });
