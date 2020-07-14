@@ -45,27 +45,35 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      if (
-        state.isLoading ||
-        state.nameError ||
-        state.emailError ||
-        state.passwordError ||
-        state.passwordConfirmationError
-      ) {
-        return;
+      try {
+        if (
+          state.isLoading ||
+          state.nameError ||
+          state.emailError ||
+          state.passwordError ||
+          state.passwordConfirmationError
+        ) {
+          return;
+        }
+
+        setState({
+          ...state,
+          isLoading: true,
+        });
+
+        await addAccount.add({
+          name: state.name,
+          email: state.email,
+          password: state.password,
+          passwordConfirmation: state.passwordConfirmation,
+        });
+      } catch (error) {
+        setState({
+          ...state,
+          mainError: error.message,
+          isLoading: false,
+        });
       }
-
-      setState({
-        ...state,
-        isLoading: true,
-      });
-
-      await addAccount.add({
-        name: state.name,
-        email: state.email,
-        password: state.password,
-        passwordConfirmation: state.passwordConfirmation,
-      });
     },
     [state, setState, addAccount]
   );
