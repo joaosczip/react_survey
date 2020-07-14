@@ -1,4 +1,5 @@
-import { screen } from '@testing-library/react';
+import faker from 'faker';
+import { screen, fireEvent } from '@testing-library/react';
 
 export const testChildCount = (testId: string, count: number) => {
   const element = screen.getByTestId(testId);
@@ -14,4 +15,9 @@ export const testStatusForField = (testId: string, validationError: string) => {
   const element = screen.getByTestId(testId);
   expect(element.title).toBe(validationError || 'Tudo certo!');
   expect(element.textContent).toBe(validationError ? 'Error' : 'OK');
+};
+
+export const populateField = (testId: string, value = faker.random.word()) => {
+  const element = screen.getByTestId(testId);
+  fireEvent.input(element, { target: value });
 };
