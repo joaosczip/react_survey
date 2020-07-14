@@ -1,6 +1,6 @@
 import React from 'react';
 import faker from 'faker';
-import { RenderResult, render, cleanup } from '@testing-library/react';
+import { RenderResult, render, cleanup, screen } from '@testing-library/react';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 
 import SignUp from '.';
@@ -44,6 +44,9 @@ describe('SignUp Page', () => {
   it('should show name error if Validation fails', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });
-    helper.populateField('name', validationError);
+    helper.populateField('name');
+    const nameStatus = screen.getByTestId('name-status');
+    expect(nameStatus.title).toBe(validationError);
+    expect(nameStatus.textContent).toBe('Error');
   });
 });

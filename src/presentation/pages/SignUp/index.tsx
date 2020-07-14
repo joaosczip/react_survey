@@ -17,7 +17,7 @@ const SignUp: React.FC<Props> = ({ validation }) => {
     isLoading: false,
     mainError: '',
     name: '',
-    nameError: 'Campo obrigatório',
+    nameError: '',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
     passwordConfirmationError: 'Campo obrigatório',
