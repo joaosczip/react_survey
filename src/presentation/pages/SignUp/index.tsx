@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
@@ -114,7 +114,9 @@ const SignUp: React.FC<Props> = ({
           >
             Confirmar
           </SubmitButton>
-          <span>Voltar para Login</span>
+          <Link to="/login" replace data-testid="login-link">
+            Voltar para Login
+          </Link>
           <FormStatus />
         </Form>
       </FormContext.Provider>
