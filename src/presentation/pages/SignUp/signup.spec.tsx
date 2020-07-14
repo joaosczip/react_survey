@@ -9,32 +9,50 @@ import {
   waitFor,
 } from '@testing-library/react';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 
 import SignUp from '.';
-import { helper, ValidationStub, AddAccountSpy } from '@/presentation/test';
+import {
+  helper,
+  ValidationStub,
+  AddAccountSpy,
+  SaveAccessTokenMock,
+} from '@/presentation/test';
 import { EmailAddressAlreadyInUseError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RenderResult;
   addAccountSpy: AddAccountSpy;
+  saveAccessTokenMock: SaveAccessTokenMock;
 };
 
 type SutParams = {
   validationError: string;
 };
 
+const history = createMemoryHistory({
+  initialEntries: ['/signup'],
+});
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError;
 
   const addAccountSpy = new AddAccountSpy();
+  const saveAccessTokenMock = new SaveAccessTokenMock();
 
   const sut = render(
     <ThemeProvider>
-      <SignUp validation={validationStub} addAccount={addAccountSpy} />
+      <Router history={history}>
+        <SignUp
+          validation={validationStub}
+          addAccount={addAccountSpy}
+          saveAccessToken={saveAccessTokenMock}
+        />
+      </Router>
     </ThemeProvider>
   );
-  return { sut, addAccountSpy };
+  return { sut, addAccountSpy, saveAccessTokenMock };
 };
 
 const simulateValidSubmit = async (
@@ -192,5 +210,36 @@ describe('SignUp Page', () => {
     const mainError = await screen.findByTestId('main-error');
     expect(mainError.textContent).toBe(error.message);
     helper.testChildCount('error-container', 1);
+  });
+  it('should call SaveAccessToken on success', async () => {
+    const { saveAccessTokenMock, addAccountSpy } = makeSut();
+
+    const name = faker.name.findName();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+
+    const nameField = screen.getByTestId('name');
+    fireEvent.input(nameField, { target: { value: name } });
+
+    const emailField = screen.getByTestId('email');
+    fireEvent.input(emailField, { target: { value: email } });
+
+    const passwordField = screen.getByTestId('password');
+    fireEvent.input(passwordField, { target: { value: password } });
+
+    const passwordConfirmationField = screen.getByTestId(
+      'passwordConfirmation'
+    );
+    fireEvent.input(passwordConfirmationField, { target: { value: password } });
+
+    const form = screen.getByTestId('form') as HTMLFormElement;
+    form.submit();
+    await waitFor(() => form);
+
+    expect(saveAccessTokenMock.accessToken).toBe(
+      addAccountSpy.account.accessToken
+    );
+    expect(history.length).toBe(1);
+    expect(history.location.pathname).toBe('/');
   });
 });
