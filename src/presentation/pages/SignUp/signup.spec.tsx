@@ -242,4 +242,13 @@ describe('SignUp Page', () => {
     expect(history.length).toBe(1);
     expect(history.location.pathname).toBe('/');
   });
+  it('should present error if SaveAccessToken fails', async () => {
+    const { saveAccessTokenMock } = makeSut();
+    const error = new EmailAddressAlreadyInUseError();
+    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error);
+    await simulateValidSubmit();
+    const mainError = await screen.findByTestId('main-error');
+    expect(mainError.textContent).toBe(error.message);
+    helper.testChildCount('error-container', 1);
+  });
 });
