@@ -12,6 +12,7 @@ import ThemeProvider from '@/presentation/components/ThemeProvider';
 
 import SignUp from '.';
 import { helper, ValidationStub, AddAccountSpy } from '@/presentation/test';
+import { EmailAddressAlreadyInUseError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RenderResult;
@@ -182,5 +183,14 @@ describe('SignUp Page', () => {
     form.submit();
 
     expect(addAccountSpy.callsCount).toBe(0);
+  });
+  it('should present error if AddAccount fails', async () => {
+    const { addAccountSpy } = makeSut();
+    const error = new EmailAddressAlreadyInUseError();
+    jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error);
+    simulateValidSubmit();
+    const mainError = await screen.findByTestId('main-error');
+    expect(mainError.textContent).toBe(error.message);
+    helper.testChildCount('error-container', 1);
   });
 });
