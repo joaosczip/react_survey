@@ -34,7 +34,7 @@ describe('SignUp Page', () => {
     helper.testChildCount('error-container', 0);
     helper.testButtonIsDisabled('submit', true);
     helper.testStatusForField('name-status', validationError);
-    helper.testStatusForField('email-status', 'Campo obrigatório');
+    helper.testStatusForField('email-status', validationError);
     helper.testStatusForField('password-status', 'Campo obrigatório');
     helper.testStatusForField(
       'passwordConfirmation-status',
@@ -46,6 +46,14 @@ describe('SignUp Page', () => {
     makeSut({ validationError });
     helper.populateField('name');
     const nameStatus = screen.getByTestId('name-status');
+    expect(nameStatus.title).toBe(validationError);
+    expect(nameStatus.textContent).toBe('Error');
+  });
+  it('should show email error if Validation fails', () => {
+    const validationError = faker.random.words();
+    makeSut({ validationError });
+    helper.populateField('email');
+    const nameStatus = screen.getByTestId('email-status');
     expect(nameStatus.title).toBe(validationError);
     expect(nameStatus.textContent).toBe('Error');
   });
