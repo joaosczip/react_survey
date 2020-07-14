@@ -44,6 +44,11 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+
+      if (state.isLoading) {
+        return;
+      }
+
       setState({
         ...state,
         isLoading: true,
