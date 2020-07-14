@@ -173,4 +173,14 @@ describe('SignUp Page', () => {
     simulateValidSubmit();
     expect(addAccountSpy.callsCount).toBe(1);
   });
+  it('should not calls AddAccount if form is invalid', () => {
+    const { addAccountSpy } = makeSut({
+      validationError: faker.random.words(),
+    });
+
+    const form = screen.getByTestId('form') as HTMLFormElement;
+    form.submit();
+
+    expect(addAccountSpy.callsCount).toBe(0);
+  });
 });
