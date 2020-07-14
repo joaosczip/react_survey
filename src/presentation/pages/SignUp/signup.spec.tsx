@@ -167,4 +167,10 @@ describe('SignUp Page', () => {
       passwordConfirmation: password,
     });
   });
+  it('should calls AddAccount only once', () => {
+    const { addAccountSpy } = makeSut();
+    simulateValidSubmit();
+    simulateValidSubmit();
+    expect(addAccountSpy.callsCount).toBe(1);
+  });
 });
