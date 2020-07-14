@@ -36,10 +36,7 @@ describe('SignUp Page', () => {
     helper.testStatusForField('name-status', validationError);
     helper.testStatusForField('email-status', validationError);
     helper.testStatusForField('password-status', validationError);
-    helper.testStatusForField(
-      'passwordConfirmation-status',
-      'Campo obrigatório'
-    );
+    helper.testStatusForField('passwordConfirmation-status', validationError);
   });
   it('should show name error if Validation fails', () => {
     const validationError = faker.random.words();
@@ -62,6 +59,14 @@ describe('SignUp Page', () => {
     makeSut({ validationError });
     helper.populateField('password');
     const nameStatus = screen.getByTestId('password-status');
+    expect(nameStatus.title).toBe(validationError);
+    expect(nameStatus.textContent).toBe('Error');
+  });
+  it('should show passwordConfirmation error if Validation fails', () => {
+    const validationError = faker.random.words();
+    makeSut({ validationError });
+    helper.populateField('passwordConfirmation');
+    const nameStatus = screen.getByTestId('passwordConfirmation-status');
     expect(nameStatus.title).toBe(validationError);
     expect(nameStatus.textContent).toBe('Error');
   });
