@@ -21,3 +21,8 @@ export const populateField = (testId: string, value = faker.random.word()) => {
   const element = screen.getByTestId(testId);
   fireEvent.input(element, { target: value });
 };
+
+export const testElementExists = (testId: string) => {
+  const element = screen.getByTestId(testId);
+  expect(element).toBeTruthy();
+};

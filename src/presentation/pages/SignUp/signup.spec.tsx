@@ -1,6 +1,13 @@
 import React from 'react';
 import faker from 'faker';
-import { RenderResult, render, cleanup, screen } from '@testing-library/react';
+import {
+  RenderResult,
+  render,
+  cleanup,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 
 import SignUp from '.';
@@ -24,6 +31,20 @@ const makeSut = (params?: SutParams): SutTypes => {
     </ThemeProvider>
   );
   return { sut };
+};
+
+const simulateValidSubmit = async (
+  name = faker.name.findName(),
+  email = faker.internet.email(),
+  password = faker.internet.password()
+): Promise<void> => {
+  helper.populateField('name', name);
+  helper.populateField('email', email);
+  helper.populateField('password', password);
+  helper.populateField('passwordConfirmation', password);
+  const form = screen.getByTestId('form');
+  fireEvent.submit(form);
+  await waitFor(() => form);
 };
 
 describe('SignUp Page', () => {
@@ -107,5 +128,10 @@ describe('SignUp Page', () => {
     helper.populateField('password');
     helper.populateField('passwordConfirmation');
     helper.testButtonIsDisabled('submit', false);
+  });
+  it('should shows spinner on submit', () => {
+    makeSut();
+    simulateValidSubmit();
+    helper.testElementExists('spinner');
   });
 });
