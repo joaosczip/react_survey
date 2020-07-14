@@ -251,4 +251,11 @@ describe('SignUp Page', () => {
     expect(mainError.textContent).toBe(error.message);
     helper.testChildCount('error-container', 1);
   });
+  it('should go to login page', () => {
+    makeSut();
+    const loginLink = screen.getByTestId('login-link');
+    fireEvent.click(loginLink);
+    expect(history.length).toBe(1);
+    expect(history.location.pathname).toBe('/login');
+  });
 });
