@@ -11,10 +11,11 @@ import {
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 
 import SignUp from '.';
-import { helper, ValidationStub } from '@/presentation/test';
+import { helper, ValidationStub, AddAccountSpy } from '@/presentation/test';
 
 type SutTypes = {
   sut: RenderResult;
+  addAccountSpy: AddAccountSpy;
 };
 
 type SutParams = {
@@ -25,12 +26,14 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub();
   validationStub.errorMessage = params?.validationError;
 
+  const addAccountSpy = new AddAccountSpy();
+
   const sut = render(
     <ThemeProvider>
-      <SignUp validation={validationStub} />
+      <SignUp validation={validationStub} addAccount={addAccountSpy} />
     </ThemeProvider>
   );
-  return { sut };
+  return { sut, addAccountSpy };
 };
 
 const simulateValidSubmit = async (
@@ -133,5 +136,35 @@ describe('SignUp Page', () => {
     makeSut();
     simulateValidSubmit();
     helper.testElementExists('spinner');
+  });
+  it('should call AddAccount with correct values', async () => {
+    const { addAccountSpy } = makeSut();
+    const name = faker.name.findName();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+
+    const nameField = screen.getByTestId('name');
+    fireEvent.input(nameField, { target: { value: name } });
+
+    const emailField = screen.getByTestId('email');
+    fireEvent.input(emailField, { target: { value: email } });
+
+    const passwordField = screen.getByTestId('password');
+    fireEvent.input(passwordField, { target: { value: password } });
+
+    const passwordConfirmationField = screen.getByTestId(
+      'passwordConfirmation'
+    );
+    fireEvent.input(passwordConfirmationField, { target: { value: password } });
+
+    const form = screen.getByTestId('form') as HTMLFormElement;
+    form.submit();
+    await waitFor(() => form);
+    expect(addAccountSpy.params).toEqual({
+      name,
+      email,
+      password,
+      passwordConfirmation: password,
+    });
   });
 });
