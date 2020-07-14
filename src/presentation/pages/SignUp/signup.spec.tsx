@@ -100,4 +100,12 @@ describe('SignUp Page', () => {
     expect(passwordConfirmationStatus.title).toBe('Tudo certo!');
     expect(passwordConfirmationStatus.textContent).toBe('OK');
   });
+  it('should enable submit button if form is valid', () => {
+    makeSut();
+    helper.populateField('name');
+    helper.populateField('email');
+    helper.populateField('password');
+    helper.populateField('passwordConfirmation');
+    helper.testButtonIsDisabled('submit', false);
+  });
 });
