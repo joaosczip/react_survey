@@ -7,12 +7,14 @@ import FormStatus from '@/presentation/components/FormStatus';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
 import { Container, Form, SubmitButton } from './styles';
+import { AddAccount } from '@/domain/usecases';
 
 type Props = {
   validation: Validation;
+  addAccount: AddAccount;
 };
 
-const SignUp: React.FC<Props> = ({ validation }) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
   const [state, setState] = useState({
     isLoading: false,
     mainError: '',
@@ -46,8 +48,15 @@ const SignUp: React.FC<Props> = ({ validation }) => {
         ...state,
         isLoading: true,
       });
+
+      await addAccount.add({
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        passwordConfirmation: state.passwordConfirmation,
+      });
     },
-    [state, setState]
+    [state, setState, addAccount]
   );
 
   return (
