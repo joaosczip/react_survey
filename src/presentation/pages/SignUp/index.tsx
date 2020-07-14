@@ -53,7 +53,16 @@ const SignUp: React.FC<Props> = ({ validation }) => {
             name="passwordConfirmation"
             placeholder="Confirme sua senha"
           />
-          <SubmitButton disabled data-testid="submit" type="submit">
+          <SubmitButton
+            disabled={
+              !!state.emailError ||
+              !!state.emailError ||
+              !!state.passwordError ||
+              !!state.passwordConfirmationError
+            }
+            data-testid="submit"
+            type="submit"
+          >
             Confirmar
           </SubmitButton>
           <span>Voltar para Login</span>
