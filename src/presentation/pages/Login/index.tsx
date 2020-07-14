@@ -5,10 +5,11 @@ import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
 import Input from '@/presentation/components/Input';
 import FormStatus from '@/presentation/components/FormStatus';
+import SubmitButton from '@/presentation/components/SubmitButton';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
 import { Authentication, SaveAccessToken } from '@/domain/usecases';
-import { Container, Form, SubmitButton } from './styles';
+import { Container, Form } from './styles';
 
 type Props = {
   validation: Validation;
@@ -24,6 +25,7 @@ const Login: React.FC<Props> = ({
   const history = useHistory();
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     email: '',
     password: '',
     emailError: '',
@@ -32,10 +34,14 @@ const Login: React.FC<Props> = ({
   });
 
   useEffect(() => {
+    const emailError = validation.validate('email', state.email);
+    const passwordError = validation.validate('password', state.password);
+
     setState({
       ...state,
-      emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password),
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError,
     });
   }, [state.email, state.password]);
 
@@ -43,7 +49,7 @@ const Login: React.FC<Props> = ({
     async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       try {
-        if (state.isLoading || state.emailError || state.passwordError) {
+        if (state.isLoading || state.isFormInvalid) {
           return;
         }
 
@@ -79,13 +85,7 @@ const Login: React.FC<Props> = ({
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Seu email" />
           <Input type="password" name="password" placeholder="Sua senha" />
-          <SubmitButton
-            data-testid="submit"
-            disabled={!!state.emailError || !!state.passwordError}
-            type="submit"
-          >
-            Entrar
-          </SubmitButton>
+          <SubmitButton label="Entrar" />
           <Link data-testid="signup" to="/signup">
             Criar conta
           </Link>

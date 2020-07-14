@@ -37,5 +37,9 @@ export default createGlobalStyle`
     &:hover {
       opacity: 0.8;
     }
+
+    &:disabled {
+      background-color: ${(props) => props.theme.colors.disabled};
+    }
   }
 `;
