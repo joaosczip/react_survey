@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
 import Footer from '@/presentation/components/Footer';
@@ -7,14 +8,19 @@ import FormStatus from '@/presentation/components/FormStatus';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
 import { Container, Form, SubmitButton } from './styles';
-import { AddAccount } from '@/domain/usecases';
+import { AddAccount, SaveAccessToken } from '@/domain/usecases';
 
 type Props = {
   validation: Validation;
   addAccount: AddAccount;
+  saveAccessToken: SaveAccessToken;
 };
 
-const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
+const SignUp: React.FC<Props> = ({
+  validation,
+  addAccount,
+  saveAccessToken,
+}) => {
   const [state, setState] = useState({
     isLoading: false,
     mainError: '',
@@ -27,6 +33,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
     passwordConfirmation: '',
     passwordConfirmationError: '',
   });
+  const history = useHistory();
 
   useEffect(() => {
     setState({
@@ -61,12 +68,15 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
           isLoading: true,
         });
 
-        await addAccount.add({
+        const account = await addAccount.add({
           name: state.name,
           email: state.email,
           password: state.password,
           passwordConfirmation: state.passwordConfirmation,
         });
+
+        await saveAccessToken.save(account.accessToken);
+        history.replace('/');
       } catch (error) {
         setState({
           ...state,
@@ -75,7 +85,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }) => {
         });
       }
     },
-    [state, setState, addAccount]
+    [state, setState, addAccount, saveAccessToken, history]
   );
 
   return (
