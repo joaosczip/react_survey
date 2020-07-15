@@ -9,10 +9,6 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
-  testPathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/src/main/test/cypress',
-  ],
   transform: {
     '.+\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.svg$': 'jest-svg-transformer',
