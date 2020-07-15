@@ -10,9 +10,11 @@
     "test:watch": "yarn test -- --watch --silent",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage",
-    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info"
+    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
+    "test:cypress": "npx cypress open"
   },
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^5.4.1",
     "@testing-library/react": "^10.4.3",
     "@types/axios": "^0.14.0",
     "@types/faker": "^4.1.12",
@@ -24,6 +26,7 @@
     "@types/styled-components": "^5.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "coveralls": "^3.1.0",
+    "cypress": "^4.10.0",
     "eslint-config-prettier": "^6.11.0",
     "faker": "^4.1.0",
     "file-loader": "^6.0.0",
