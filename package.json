@@ -10,7 +10,8 @@
     "test:watch": "yarn test -- --watch --silent",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage",
-    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info"
+    "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
+    "test:cypress": "npx cypress open"
   },
   "devDependencies": {
     "@testing-library/react": "^10.4.3",
