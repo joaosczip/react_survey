@@ -16,20 +16,14 @@ export default createGlobalStyle`
   input[type="password"],
   input[type="text"],
   input[type="email"] {
-    border: 1px solid ${(props) => props.theme.colors.prmaryLigth};
-    line-height: 40px;
-    border-radius: 4px;
-    padding: 0 40px 0 8px;
-
-    &:focus {
-      outline-color: ${(props) => props.theme.colors.prmaryLigth};
-    }
+    border: none;
+    outline: none;
   }
 
   button {
     background-color: ${(props) => props.theme.colors.primary};
     color: ${(props) => props.theme.colors.white};
-    line-height: 60px;
+    line-height: 50px;
     border-radius: 8px;
     font-size: 16px;
     border: none;
