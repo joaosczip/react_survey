@@ -21,9 +21,13 @@ const Input: React.FC<InputProps> = (props) => {
   };
 
   return (
-    <Container>
+    <Container
+      data-testid={`${props.name}-container`}
+      isValid={error ? false : true}
+    >
       <input
         ref={inputRef}
+        title={error}
         data-testid={props.name}
         {...props}
         placeholder=" "
@@ -31,12 +35,14 @@ const Input: React.FC<InputProps> = (props) => {
         onFocus={(event) => (event.target.readOnly = false)}
         onChange={handleInputChange}
       />
-      <label onClick={() => inputRef.current.focus()} htmlFor="">
+      <label
+        data-testid={`${props.name}-label`}
+        title={error}
+        onClick={() => inputRef.current.focus()}
+        htmlFor=""
+      >
         {props.placeholder}
       </label>
-      <span data-testid={`${props.name}-status`} title={error || 'Tudo certo!'}>
-        {error ? 'Error' : 'OK'}
-      </span>
     </Container>
   );
 };

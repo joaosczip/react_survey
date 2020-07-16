@@ -13,6 +13,8 @@ const ThemeProvider: React.FC = ({ children }) => {
           primaryDark: '#560027',
           prmaryLigth: '#BC477B',
           disabled: '#CCC',
+          valid: '#4CAF50',
+          invalid: '#EF5350',
         },
       }}
     >

@@ -13,8 +13,7 @@ export const testButtonIsDisabled = (testId: string, isDisabled: boolean) => {
 
 export const testStatusForField = (testId: string, validationError: string) => {
   const element = screen.getByTestId(testId);
-  expect(element.title).toBe(validationError || 'Tudo certo!');
-  expect(element.textContent).toBe(validationError ? 'Error' : 'OK');
+  expect(element.title).toBe(validationError || '');
 };
 
 export const populateField = (testId: string, value = faker.random.word()) => {

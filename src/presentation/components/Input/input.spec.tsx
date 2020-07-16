@@ -2,12 +2,15 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Input from './index';
 import Context from '@/presentation/contexts/form/form-context';
+import ThemeProvider from '../ThemeProvider';
 
 const makeSut = () =>
   render(
-    <Context.Provider value={{ state: {} }}>
-      <Input name="field" />
-    </Context.Provider>
+    <ThemeProvider>
+      <Context.Provider value={{ state: {} }}>
+        <Input name="field" />
+      </Context.Provider>
+    </ThemeProvider>
   );
 
 describe('InputComponent', () => {

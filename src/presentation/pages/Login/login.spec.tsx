@@ -89,12 +89,10 @@ describe('LoginPage', () => {
     expect(errorContainer.childElementCount).toBe(0);
     const submitButton = screen.getByTestId('submit') as HTMLButtonElement;
     expect(submitButton.disabled).toBe(true);
-    const emailStatus = screen.getByTestId('email-status');
-    expect(emailStatus.title).toBe(validationStub.errorMessage);
-    expect(emailStatus.textContent).toBe('Error');
-    const passwordStatus = screen.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(validationStub.errorMessage);
-    expect(emailStatus.textContent).toBe('Error');
+    const emailLabel = screen.getByTestId('email-label');
+    expect(emailLabel.title).toBe(validationStub.errorMessage);
+    const passwordLabel = screen.getByTestId('password-label');
+    expect(passwordLabel.title).toBe(validationStub.errorMessage);
   });
   it('should show email error if validation fails', () => {
     const { validationStub } = makeSut({
@@ -102,9 +100,8 @@ describe('LoginPage', () => {
     });
     validationStub.errorMessage = faker.random.words();
     populateEmailField();
-    const emailStatus = screen.getByTestId('email-status');
+    const emailStatus = screen.getByTestId('email-label');
     expect(emailStatus.title).toBe(validationStub.errorMessage);
-    expect(emailStatus.textContent).toBe('Error');
   });
   it('should show password error if validation fails', () => {
     const { validationStub } = makeSut({
@@ -112,23 +109,20 @@ describe('LoginPage', () => {
     });
     validationStub.errorMessage = faker.random.words();
     populatePasswordField();
-    const passwordStatus = screen.getByTestId('password-status');
+    const passwordStatus = screen.getByTestId('password-label');
     expect(passwordStatus.title).toBe(validationStub.errorMessage);
-    expect(passwordStatus.textContent).toBe('Error');
   });
   it('should shows valid email state if validation succeds', () => {
     makeSut();
     populateEmailField();
-    const emailStatus = screen.getByTestId('email-status');
-    expect(emailStatus.title).toBe('Tudo certo!');
-    expect(emailStatus.textContent).toBe('OK');
+    const emailLabel = screen.getByTestId('email-label');
+    expect(emailLabel.title).toBeFalsy();
   });
   it('should shows valid password state if validation succeds', () => {
     makeSut();
     populatePasswordField();
-    const passwordStatus = screen.getByTestId('password-status');
-    expect(passwordStatus.title).toBe('Tudo certo!');
-    expect(passwordStatus.textContent).toBe('OK');
+    const passwordLabel = screen.getByTestId('password-label');
+    expect(passwordLabel.title).toBeFalsy();
   });
   it('should enable submit button if form is valid', () => {
     makeSut();

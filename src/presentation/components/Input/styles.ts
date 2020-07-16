@@ -1,21 +1,36 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+type ContainerProps = {
+  isValid: boolean;
+};
+
+export const Container = styled.div<ContainerProps>`
   margin-top: 40px;
   position: relative;
   border-bottom: 2px dashed ${(props) => props.theme.colors.disabled};
+  border-bottom-color: ${(props) => props.theme.colors.invalid};
+
+  ${(props) =>
+    props.isValid &&
+    css`
+      border-bottom-color: ${(props) => props.theme.colors.valid};
+
+      &::after {
+        background-color: ${(props) => props.theme.colors.valid};
+      }
+    `}
 
   &::after {
     content: '';
     width: 100%;
     height: 2px;
-    background-color: ${(props) => props.theme.colors.prmaryLigth};
+    background-color: ${(props) => props.theme.colors.invalid};
     position: absolute;
     bottom: -2px;
     left: 0px;
     transform-origin: 0%;
     transform: scaleX(0);
-    transition: transform 500ms ease;
+    transition: transform 400ms ease;
   }
 
   &:focus-within {
@@ -46,7 +61,7 @@ export const Container = styled.div`
     cursor: text;
     transform-origin: 0%;
     transform: translateY(0);
-    transition: transform 500ms ease;
+    transition: transform 400ms ease;
   }
 
   span {

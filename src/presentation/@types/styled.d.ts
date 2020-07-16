@@ -10,6 +10,8 @@ declare module 'styled-components' {
       primaryDark: string;
       prmaryLigth: string;
       disabled: string;
+      valid: string;
+      invalid: string;
     };
   }
 }
