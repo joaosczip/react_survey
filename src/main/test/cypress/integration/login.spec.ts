@@ -58,6 +58,25 @@ describe('Login', () => {
     cy.getByTestId('main-error').should('have.text', 'Credenciais inválidas!');
     cy.url().should('eq', `${baseUrl}/login`);
   });
+  it('should present error if api returns 400', () => {
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 400,
+      response: {
+        error: faker.random.words(),
+      },
+    });
+    cy.getByTestId('email').focus().type(faker.internet.email());
+    cy.getByTestId('password').focus().type(faker.internet.password());
+    cy.getByTestId('submit').click();
+    cy.getByTestId('spinner').should('not.exist');
+    cy.getByTestId('main-error').should(
+      'have.text',
+      'Algo de errado aconteceu! Tente novamente.'
+    );
+    cy.url().should('eq', `${baseUrl}/login`);
+  });
   it('should save accessToken if valid credentials are provided', () => {
     cy.route({
       method: 'POST',
