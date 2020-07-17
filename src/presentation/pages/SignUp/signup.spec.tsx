@@ -85,55 +85,45 @@ describe('SignUp Page', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });
     helper.populateField('name');
-    const nameStatus = screen.getByTestId('name-label');
-    expect(nameStatus.title).toBe(validationError);
+    helper.testStatusForField('name-label', validationError);
   });
   it('should show email error if Validation fails', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });
     helper.populateField('email');
-    const nameStatus = screen.getByTestId('email-label');
-    expect(nameStatus.title).toBe(validationError);
+    helper.testStatusForField('email-label', validationError);
   });
   it('should show password error if Validation fails', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });
     helper.populateField('password');
-    const nameStatus = screen.getByTestId('password-label');
-    expect(nameStatus.title).toBe(validationError);
+    helper.testStatusForField('password-label', validationError);
   });
   it('should show passwordConfirmation error if Validation fails', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });
     helper.populateField('passwordConfirmation');
-    const nameStatus = screen.getByTestId('passwordConfirmation-label');
-    expect(nameStatus.title).toBe(validationError);
+    helper.testStatusForField('passwordConfirmation-label', validationError);
   });
   it('should show valid name state if Validation succeds', () => {
     makeSut();
     helper.populateField('name');
-    const nameStatus = screen.getByTestId('name-label');
-    expect(nameStatus.title).toBeFalsy();
+    helper.testStatusForField('name-label', '');
   });
   it('should show valid email state if Validation succeds', () => {
     makeSut();
     helper.populateField('email');
-    const emailStatus = screen.getByTestId('email-label');
-    expect(emailStatus.title).toBeFalsy();
+    helper.testStatusForField('email-label', '');
   });
   it('should show valid password state if Validation succeds', () => {
     makeSut();
     helper.populateField('password');
-    const passwordStatus = screen.getByTestId('password-label');
-    expect(passwordStatus.title).toBeFalsy();
+    helper.testStatusForField('password-label', '');
   });
   it('should show valid passwordConfirmation state if Validation succeds', () => {
     makeSut();
     helper.populateField('passwordConfirmation');
-    const passwordConfirmationStatus = screen.getByTestId(
-      'passwordConfirmation-label'
-    );
-    expect(passwordConfirmationStatus.title).toBeFalsy();
+    helper.testStatusForField('passwordConfirmation-label', '');
   });
   it('should enable submit button if form is valid', () => {
     makeSut();
