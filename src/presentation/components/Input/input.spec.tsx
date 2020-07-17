@@ -25,4 +25,11 @@ describe('InputComponent', () => {
     fireEvent.focus(input);
     expect(input.readOnly).toBe(false);
   });
+  it('should focus input on label click', () => {
+    makeSut();
+    const input = screen.getByTestId('field') as HTMLInputElement;
+    const fieldLabel = screen.getByTestId('field-label');
+    fireEvent.click(fieldLabel);
+    expect(input.readOnly).toBe(false);
+  });
 });
