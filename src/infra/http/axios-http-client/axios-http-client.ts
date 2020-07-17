@@ -2,12 +2,9 @@ import axios, { AxiosResponse } from 'axios';
 
 import { HttpPostClient, HttpResponse } from '@/data/protocols/http';
 
-export class AxiosHttpClient implements HttpPostClient<any, any> {
-  async post({
-    url,
-    body,
-  }: HttpPostClient.Params<any>): Promise<HttpResponse<any>> {
-    let httpResponse: Partial<AxiosResponse<any>>;
+export class AxiosHttpClient implements HttpPostClient {
+  async post({ url, body }: HttpPostClient.Params): Promise<HttpResponse> {
+    let httpResponse: Partial<AxiosResponse>;
     try {
       httpResponse = await axios.post(url, body);
     } catch (error) {

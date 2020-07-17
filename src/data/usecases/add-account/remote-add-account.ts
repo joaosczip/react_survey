@@ -9,10 +9,7 @@ import {
 export class RemoteAddAccount implements AddAccount {
   constructor(
     private readonly url: string,
-    private readonly httpPostClient: HttpPostClient<
-      AddAccount.Params,
-      AccountModel
-    >
+    private readonly httpPostClient: HttpPostClient<AccountModel>
   ) {}
 
   async add(params: AddAccount.Params): Promise<AccountModel> {
