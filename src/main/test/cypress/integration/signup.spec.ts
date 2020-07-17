@@ -75,4 +75,12 @@ describe('SignUp', () => {
     FormHelper.testMainError('Algo de errado aconteceu! Tente novamente.');
     FormHelper.testUrl('/signup');
   });
+  it('should save accessToken if valid credentials are provided', () => {
+    Http.mockOk();
+    simulateValidSubmit();
+    cy.getByTestId('spinner').should('not.exist');
+    cy.getByTestId('error-container').should('not.exist');
+    FormHelper.testUrl('/');
+    FormHelper.testLocalStorageItem('accessToken');
+  });
 });

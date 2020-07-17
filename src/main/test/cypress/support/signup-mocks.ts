@@ -9,3 +9,7 @@ export const mockInvalidOk = () =>
   Helper.mockOkResponse(/signup/, 'POST', {
     invalid: faker.random.words(),
   });
+export const mockOk = () =>
+  Helper.mockOkResponse(/signup/, 'POST', {
+    accessToken: faker.random.uuid(),
+  });
