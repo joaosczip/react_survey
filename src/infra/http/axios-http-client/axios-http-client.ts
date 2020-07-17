@@ -6,7 +6,7 @@ import {
   HttpGetClient,
 } from '@/data/protocols/http';
 
-export class AxiosHttpClient implements HttpPostClient {
+export class AxiosHttpClient implements HttpPostClient, HttpGetClient {
   async post({ url, body }: HttpPostClient.Params): Promise<HttpResponse> {
     let axiosResponse: Partial<AxiosResponse>;
     try {
@@ -21,7 +21,11 @@ export class AxiosHttpClient implements HttpPostClient {
     };
   }
 
-  async get({ url }: HttpGetClient.Params): Promise<void> {
-    await axios.get(url);
+  async get({ url }: HttpGetClient.Params): Promise<HttpResponse> {
+    const response = await axios.get(url);
+    return {
+      statusCode: response.status,
+      body: response.data,
+    };
   }
 }
