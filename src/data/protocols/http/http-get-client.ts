@@ -1,5 +1,7 @@
-export interface HttpGetClient {
-  get: (params: HttpGetClient.Params) => Promise<void>;
+import { HttpResponse } from './http-reponse';
+
+export interface HttpGetClient<R = any> {
+  get: (params: HttpGetClient.Params) => Promise<HttpResponse<R>>;
 }
 
 export namespace HttpGetClient {
