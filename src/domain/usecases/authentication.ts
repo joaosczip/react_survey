@@ -1,4 +1,4 @@
-import { AccountModel } from '../models/account-model';
+import { AccountModel } from '../models/';
 
 export interface Authentication {
   auth(params: Authentication.Params): Promise<AccountModel>;
