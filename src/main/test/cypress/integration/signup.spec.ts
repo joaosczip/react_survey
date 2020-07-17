@@ -93,4 +93,13 @@ describe('SignUp', () => {
     cy.getByTestId('submit').dblclick();
     FormHelper.testHttpCallsCount(1);
   });
+  it('should not call submit if form is invalid', () => {
+    Http.mockOk();
+    cy.getByTestId('email').focus().type(faker.random.word());
+    cy.getByTestId('password')
+      .focus()
+      .type(faker.random.alphaNumeric(4))
+      .type('{enter}');
+    FormHelper.testHttpCallsCount(0);
+  });
 });
