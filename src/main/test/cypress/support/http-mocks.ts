@@ -33,3 +33,15 @@ export const mockOkResponse = (url: RegExp, method: string, response: any) => {
     response,
   }).as('request');
 };
+
+export const mockForbidden = (url: RegExp, method: string) => {
+  cy.server();
+  cy.route({
+    method,
+    url,
+    status: 403,
+    response: {
+      error: faker.random.words(),
+    },
+  }).as('request');
+};
