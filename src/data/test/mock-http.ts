@@ -4,6 +4,7 @@ import {
   HttpPostClient,
   HttpResponse,
   HttpStatusCode,
+  HttpGetClient,
 } from '../protocols/http/';
 
 export const mockPostRequest = (): HttpPostClient.Params => ({
@@ -22,5 +23,12 @@ export class HttpPostClientSpy<R> implements HttpPostClient<R> {
     this.url = params.url;
     this.body = params.body;
     return Promise.resolve(this.response);
+  }
+}
+
+export class HttpGetClientSpy implements HttpGetClient {
+  url: string;
+  async get(params: HttpGetClient.Params): Promise<void> {
+    this.url = params.url;
   }
 }
