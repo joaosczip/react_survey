@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+type IconProps = {
+  valid: boolean;
+};
 
 export const Container = styled.div`
   display: flex;
@@ -108,6 +112,7 @@ export const BoxContent = styled.div`
     );
   background-position: 0 0, 54 0;
   background-size: 50px 100%, 100% 100%;
+  position: relative;
 
   time {
     display: flex;
@@ -131,6 +136,24 @@ export const BoxContent = styled.div`
     align-self: center;
   }
 `;
+
+export const IconContainer = styled.div<IconProps>`
+  position: absolute;
+  background-color: ${(props) => props.theme.colors.valid};
+  ${(props) =>
+    props.valid === false &&
+    css`
+      background-color: ${(props) => props.theme.colors.invalid};
+    `};
+  top: -10px;
+  right: -10px;
+  padding: 10px;
+  border-radius: 100%;
+  display: flex;
+  box-shadow: 0px 1px 3px -1px ${(props) => props.theme.colors.black};
+`;
+
+export const Icon = styled.img``;
 
 export const BoxFooter = styled.footer`
   background-color: ${(props) => props.theme.colors.primary};
