@@ -1,12 +1,9 @@
 import React from 'react';
 
-import logoImg from '@/presentation/assets/logo.svg';
 import Footer from '@/presentation/components/Footer';
+import Header from '@/presentation/components/Header';
 import {
   Container,
-  Header,
-  HeaderContent,
-  Logout,
   MainContent,
   BoxContent,
   IconContainer,
@@ -20,15 +17,7 @@ import {
 const SurveyList: React.FC = () => {
   return (
     <Container>
-      <Header>
-        <HeaderContent>
-          <img src={logoImg} alt="log" />
-          <Logout>
-            <span>João</span>
-            <a href="#">Sair</a>
-          </Logout>
-        </HeaderContent>
-      </Header>
+      <Header />
       <MainContent>
         <h2>Enquetes</h2>
         <ul>
