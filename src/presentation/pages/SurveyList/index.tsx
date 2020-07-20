@@ -2,12 +2,11 @@ import React from 'react';
 
 import Footer from '@/presentation/components/Footer';
 import Header from '@/presentation/components/Header';
+import Icon, { IconName } from '@/presentation/components/Icon';
 import {
   Container,
   MainContent,
   BoxContent,
-  IconContainer,
-  Icon,
   BoxFooter,
   Day,
   Month,
@@ -23,9 +22,15 @@ const SurveyList: React.FC = () => {
         <ul>
           <li>
             <BoxContent>
-              <IconContainer valid={true}>
-                <Icon src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAFKADAAQAAAABAAAAEgAAAAA9nQVdAAAA0klEQVQ4EWNgIAH8//+/AYhLSNCCWynUMCD1/zcQG+BWSYQMkmEgA0Egjght2JUANYO8iQ4MsasmIAo0BZthP4DirAS0YkrjMAzk0tOYqgmIADUVgnTiADPxakfStAWmECj2DkmcWOYjoEJPRpBqmEGMQABiI4vB5IikH1PbQAYmIm0mVtlLahu4nJpe/gf0hho1XbgVGKd3qWngRFBA4/LyX6AcKZZdBbpOB2QgLk1nQJIkgElwtaBEDAXIOUULKHYSiP/CJHHQX4Hic4CYBWYgADx8PyqFiuhJAAAAAElFTkSuQmCC" />
-              </IconContainer>
+              <Icon
+                styles={{
+                  top: '-10px',
+                  right: '-10px',
+                  position: 'absolute',
+                  backgroundColor: 'green',
+                }}
+                iconName={IconName.thumbUp}
+              />
               <time>
                 <Day>22</Day>
                 <Month>03</Month>
