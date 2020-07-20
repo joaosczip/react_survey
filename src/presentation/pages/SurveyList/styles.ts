@@ -18,6 +18,10 @@ export const MainContent = styled.div`
   width: 100%;
   margin-top: 24px;
 
+  @media (max-width: 600px) {
+    padding: 0 24px;
+  }
+
   h2 {
     color: ${(props) => props.theme.colors.primaryDark};
     font-size: 20px;
@@ -32,6 +36,10 @@ export const MainContent = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
 
+    @media (max-width: 600px) {
+      flex-direction: column;
+    }
+
     li {
       height: 250px;
       background-color: ${(props) => props.theme.colors.white};
@@ -42,6 +50,10 @@ export const MainContent = styled.div`
       /* flex-basis: 48%; */
       margin-bottom: 24px;
       box-shadow: 0px 1px 3px -1px ${(props) => props.theme.colors.black};
+
+      @media (max-width: 600px) {
+        flex-basis: 100%;
+      }
     }
   }
 `;
@@ -87,6 +99,7 @@ export const BoxContent = styled.div`
     color: ${(props) => props.theme.colors.black};
     margin: 24px;
     align-self: center;
+    flex-grow: 1;
   }
 `;
 

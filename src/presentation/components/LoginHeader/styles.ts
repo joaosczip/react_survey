@@ -15,4 +15,8 @@ export const Container = styled.header`
     color: ${(props) => props.theme.colors.white};
     margin: 16px 0 40px;
   }
+
+  @media (max-width: 600px) {
+    border-top-width: 20px;
+  }
 `;

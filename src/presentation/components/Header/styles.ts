@@ -5,6 +5,10 @@ export const Container = styled.header`
   justify-content: center;
   background-color: ${(props) => props.theme.colors.primary};
   border-top: 40px solid ${(props) => props.theme.colors.primaryDark};
+
+  @media (max-width: 600px) {
+    border-top-width: 20px;
+  }
 `;
 
 export const HeaderContent = styled.div`
