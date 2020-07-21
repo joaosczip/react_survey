@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import LoginHeader from '@/presentation/components/LoginHeader';
@@ -7,22 +7,19 @@ import Input from '@/presentation/components/Input';
 import FormStatus from '@/presentation/components/FormStatus';
 import SubmitButton from '@/presentation/components/SubmitButton';
 import FormContext from '@/presentation/contexts/form/form-context';
+import { useApi } from '@/presentation/contexts/api/api-context';
 import { Validation } from '@/presentation/protocols/validation';
-import { Authentication, UpdateCurrentAccount } from '@/domain/usecases';
+import { Authentication } from '@/domain/usecases';
 import { Container, Form } from './styles';
 
 type Props = {
   validation: Validation;
   authentication: Authentication;
-  updateCurrentAccount: UpdateCurrentAccount;
 };
 
-const Login: React.FC<Props> = ({
-  validation,
-  authentication,
-  updateCurrentAccount,
-}) => {
+const Login: React.FC<Props> = ({ validation, authentication }) => {
   const history = useHistory();
+  const { setCurrentAccount } = useApi();
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
@@ -48,37 +45,36 @@ const Login: React.FC<Props> = ({
     });
   }, [state.email, state.password]);
 
-  const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-      event.preventDefault();
-      try {
-        if (state.isLoading || state.isFormInvalid) {
-          return;
-        }
-
-        setState({
-          ...state,
-          isLoading: true,
-        });
-
-        const account = await authentication.auth({
-          email: state.email,
-          password: state.password,
-        });
-
-        await updateCurrentAccount.save(account);
-
-        history.replace('/');
-      } catch (error) {
-        setState({
-          ...state,
-          mainError: error.message,
-          isLoading: false,
-        });
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    event.preventDefault();
+    try {
+      if (state.isLoading || state.isFormInvalid) {
+        return;
       }
-    },
-    [state, setState]
-  );
+
+      setState({
+        ...state,
+        isLoading: true,
+      });
+
+      const account = await authentication.auth({
+        email: state.email,
+        password: state.password,
+      });
+
+      setCurrentAccount(account);
+
+      history.replace('/');
+    } catch (error) {
+      setState({
+        ...state,
+        mainError: error.message,
+        isLoading: false,
+      });
+    }
+  };
 
   return (
     <Container>

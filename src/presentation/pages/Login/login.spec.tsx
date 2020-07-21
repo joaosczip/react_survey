@@ -13,17 +13,15 @@ import faker from 'faker';
 import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { InvalidCredentialsError } from '@/domain/errors';
-import {
-  UpdateCurrentAccountMock,
-  AuthenticationSpy,
-  ValidationStub,
-} from '@/presentation/test';
+import { AuthenticationSpy, ValidationStub } from '@/presentation/test';
+import { ApiContext } from '@/presentation/contexts/api/api-context';
+import { AccountModel } from '@/domain/models';
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
   authenticationSpy: AuthenticationSpy;
-  updateCurrentAccountMock: UpdateCurrentAccountMock;
+  setCurrentAccountMock: (account: AccountModel) => void;
 };
 
 type SutParams = {
@@ -38,20 +36,21 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError;
 
   const authenticationSpy = new AuthenticationSpy();
-  const updateCurrentAccountMock = new UpdateCurrentAccountMock();
+  const setCurrentAccountMock = jest.fn();
 
   const sut = render(
     <ThemeProvider>
-      <Router history={history}>
-        <Login
-          validation={validationStub}
-          authentication={authenticationSpy}
-          updateCurrentAccount={updateCurrentAccountMock}
-        />
-      </Router>
+      <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+        <Router history={history}>
+          <Login
+            validation={validationStub}
+            authentication={authenticationSpy}
+          />
+        </Router>
+      </ApiContext.Provider>
     </ThemeProvider>
   );
-  return { sut, validationStub, authenticationSpy, updateCurrentAccountMock };
+  return { sut, validationStub, authenticationSpy, setCurrentAccountMock };
 };
 
 const simulateValidSubmit = (

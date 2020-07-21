@@ -15,6 +15,9 @@ describe('LocalStorageAdapter', () => {
     const value = faker.random.word();
     const sut = makeSut();
     sut.set(key, value);
-    expect(localStorage.setItem).toHaveBeenCalledWith(key, value);
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      key,
+      JSON.stringify(value)
+    );
   });
 });
