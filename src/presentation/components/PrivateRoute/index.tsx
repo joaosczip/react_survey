@@ -1,8 +1,15 @@
 import React from 'react';
 import { RouteProps, Route, Redirect } from 'react-router-dom';
 
+import { useApi } from '@/presentation/contexts/api/api-context';
+
 const PrivateRoute: React.FC<RouteProps> = (props) => {
-  return <Route {...props} component={() => <Redirect to="/login" />} />;
+  const { getCurrentAccount } = useApi();
+  return getCurrentAccount()?.accessToken ? (
+    <Route {...props} component={() => <Redirect to="/" />} />
+  ) : (
+    <Route {...props} component={() => <Redirect to="/login" />} />
+  );
 };
 
 export default PrivateRoute;

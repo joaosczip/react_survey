@@ -6,13 +6,19 @@ import GlobalStyle from '@/main/global';
 import { ApiContext } from '@/presentation/contexts/api/api-context';
 import { makeLogin } from '@/main/factories/pages/login/login-factory';
 import { makeSignUp } from '@/main/factories/pages/signup/signup-factory';
-import { setCurrentAccountAdapter } from '@/main/adapters/current-account-adapter';
+import {
+  setCurrentAccountAdapter,
+  getCurrentAccountAdapter,
+} from '@/main/adapters/current-account-adapter';
 import SurveyList from '../../presentation/pages/SurveyList';
 
 const Router: React.FC = () => {
   return (
     <ApiContext.Provider
-      value={{ setCurrentAccount: setCurrentAccountAdapter }}
+      value={{
+        setCurrentAccount: setCurrentAccountAdapter,
+        getCurrentAccount: getCurrentAccountAdapter,
+      }}
     >
       <ThemeProvider>
         <BrowserRouter>
