@@ -9,6 +9,7 @@ export const mockUnexpectedError = () =>
 export const mockOk = () =>
   Helper.mockOkResponse(/login/, 'POST', {
     accessToken: faker.random.uuid(),
+    name: faker.name.findName(),
   });
 export const mockInvalidOk = () =>
   Helper.mockOkResponse(/login/, 'POST', {

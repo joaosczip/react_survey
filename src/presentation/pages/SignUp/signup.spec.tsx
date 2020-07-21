@@ -17,14 +17,14 @@ import {
   helper,
   ValidationStub,
   AddAccountSpy,
-  SaveAccessTokenMock,
+  UpdateCurrentAccountMock,
 } from '@/presentation/test';
 import { EmailAddressAlreadyInUseError } from '@/domain/errors';
 
 type SutTypes = {
   sut: RenderResult;
   addAccountSpy: AddAccountSpy;
-  saveAccessTokenMock: SaveAccessTokenMock;
+  updateCurrentAccount: UpdateCurrentAccountMock;
 };
 
 type SutParams = {
@@ -39,7 +39,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError;
 
   const addAccountSpy = new AddAccountSpy();
-  const saveAccessTokenMock = new SaveAccessTokenMock();
+  const updateCurrentAccount = new UpdateCurrentAccountMock();
 
   const sut = render(
     <ThemeProvider>
@@ -47,12 +47,12 @@ const makeSut = (params?: SutParams): SutTypes => {
         <SignUp
           validation={validationStub}
           addAccount={addAccountSpy}
-          saveAccessToken={saveAccessTokenMock}
+          updateCurrentAccount={updateCurrentAccount}
         />
       </Router>
     </ThemeProvider>
   );
-  return { sut, addAccountSpy, saveAccessTokenMock };
+  return { sut, addAccountSpy, updateCurrentAccount };
 };
 
 const simulateValidSubmit = async (
@@ -194,7 +194,7 @@ describe('SignUp Page', () => {
     helper.testChildCount('error-container', 1);
   });
   it('should call SaveAccessToken on success', async () => {
-    const { saveAccessTokenMock, addAccountSpy } = makeSut();
+    const { updateCurrentAccount, addAccountSpy } = makeSut();
 
     const name = faker.name.findName();
     const email = faker.internet.email();
@@ -218,16 +218,14 @@ describe('SignUp Page', () => {
     form.submit();
     await waitFor(() => form);
 
-    expect(saveAccessTokenMock.accessToken).toBe(
-      addAccountSpy.account.accessToken
-    );
+    expect(updateCurrentAccount.account).toEqual(addAccountSpy.account);
     expect(history.length).toBe(1);
     expect(history.location.pathname).toBe('/');
   });
   it('should present error if SaveAccessToken fails', async () => {
-    const { saveAccessTokenMock } = makeSut();
+    const { updateCurrentAccount } = makeSut();
     const error = new EmailAddressAlreadyInUseError();
-    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error);
+    jest.spyOn(updateCurrentAccount, 'save').mockRejectedValueOnce(error);
     await simulateValidSubmit();
     const mainError = await screen.findByTestId('main-error');
     expect(mainError.textContent).toBe(error.message);

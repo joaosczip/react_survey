@@ -9,18 +9,18 @@ import SubmitButton from '@/presentation/components/SubmitButton';
 import FormContext from '@/presentation/contexts/form/form-context';
 import { Validation } from '@/presentation/protocols/validation';
 import { Container, Form } from './styles';
-import { AddAccount, SaveAccessToken } from '@/domain/usecases';
+import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases';
 
 type Props = {
   validation: Validation;
   addAccount: AddAccount;
-  saveAccessToken: SaveAccessToken;
+  updateCurrentAccount: UpdateCurrentAccount;
 };
 
 const SignUp: React.FC<Props> = ({
   validation,
   addAccount,
-  saveAccessToken,
+  updateCurrentAccount,
 }) => {
   const [state, setState] = useState({
     isLoading: false,
@@ -84,7 +84,7 @@ const SignUp: React.FC<Props> = ({
           passwordConfirmation: state.passwordConfirmation,
         });
 
-        await saveAccessToken.save(account.accessToken);
+        await updateCurrentAccount.save(account);
         history.replace('/');
       } catch (error) {
         setState({
@@ -94,7 +94,7 @@ const SignUp: React.FC<Props> = ({
         });
       }
     },
-    [state, setState, addAccount, saveAccessToken, history]
+    [state, setState, addAccount, updateCurrentAccount, history]
   );
 
   return (

@@ -14,7 +14,7 @@ import Login from './';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { InvalidCredentialsError } from '@/domain/errors';
 import {
-  SaveAccessTokenMock,
+  UpdateCurrentAccountMock,
   AuthenticationSpy,
   ValidationStub,
 } from '@/presentation/test';
@@ -23,7 +23,7 @@ type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
   authenticationSpy: AuthenticationSpy;
-  saveAccessTokenMock: SaveAccessTokenMock;
+  updateCurrentAccountMock: UpdateCurrentAccountMock;
 };
 
 type SutParams = {
@@ -38,7 +38,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   validationStub.errorMessage = params?.validationError;
 
   const authenticationSpy = new AuthenticationSpy();
-  const saveAccessTokenMock = new SaveAccessTokenMock();
+  const updateCurrentAccountMock = new UpdateCurrentAccountMock();
 
   const sut = render(
     <ThemeProvider>
@@ -46,12 +46,12 @@ const makeSut = (params?: SutParams): SutTypes => {
         <Login
           validation={validationStub}
           authentication={authenticationSpy}
-          saveAccessToken={saveAccessTokenMock}
+          updateCurrentAccount={updateCurrentAccountMock}
         />
       </Router>
     </ThemeProvider>
   );
-  return { sut, validationStub, authenticationSpy, saveAccessTokenMock };
+  return { sut, validationStub, authenticationSpy, updateCurrentAccountMock };
 };
 
 const simulateValidSubmit = (

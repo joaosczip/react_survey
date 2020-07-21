@@ -12,4 +12,5 @@ export const mockInvalidOk = () =>
 export const mockOk = () =>
   Helper.mockOkResponse(/signup/, 'POST', {
     accessToken: faker.random.uuid(),
+    name: faker.name.findName(),
   });
