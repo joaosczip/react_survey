@@ -3,7 +3,6 @@ import faker from 'faker';
 import {
   RenderResult,
   render,
-  cleanup,
   screen,
   fireEvent,
   waitFor,
@@ -65,7 +64,6 @@ const simulateValidSubmit = async (
 };
 
 describe('SignUp Page', () => {
-  afterEach(cleanup);
   it('should start with initial state', () => {
     const validationError = faker.random.words();
     makeSut({ validationError });

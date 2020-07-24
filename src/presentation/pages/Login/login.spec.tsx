@@ -3,7 +3,6 @@ import {
   render,
   screen,
   RenderResult,
-  cleanup,
   fireEvent,
 } from '@testing-library/react';
 import { Router } from 'react-router-dom';
@@ -78,8 +77,6 @@ const populatePasswordField = (password = faker.internet.password()) => {
 };
 
 describe('LoginPage', () => {
-  afterEach(cleanup);
-
   it('should start with initial state', () => {
     const { validationStub } = makeSut({
       validationError: faker.random.words(),
