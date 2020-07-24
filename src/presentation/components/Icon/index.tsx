@@ -15,7 +15,7 @@ type Props = {
 const Icon: React.FC<Props> = ({ iconName, styles }) => {
   return (
     <Container style={styles}>
-      <img src={iconName} />
+      <img data-testid="icon" src={iconName} />
     </Container>
   );
 };

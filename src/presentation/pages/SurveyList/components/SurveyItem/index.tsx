@@ -1,9 +1,14 @@
 import React from 'react';
 
 import Icon, { IconName } from '@/presentation/components/Icon';
+import { SurveyModel } from '@/domain/models';
 import { Container, BoxContent, Day, Month, Year, BoxFooter } from './styles';
 
-const SurveyItem: React.FC = () => {
+type Props = {
+  survey: SurveyModel;
+};
+
+const SurveyItem: React.FC<Props> = ({ survey }) => {
   return (
     <Container>
       <BoxContent>
@@ -17,11 +22,15 @@ const SurveyItem: React.FC = () => {
           iconName={IconName.thumbUp}
         />
         <time>
-          <Day>22</Day>
-          <Month>03</Month>
-          <Year>2020</Year>
+          <Day data-testid="day">{survey.date.getDate()}</Day>
+          <Month data-testid="month">
+            {survey.date
+              .toLocaleString('pt-BR', { month: 'short' })
+              .replace('.', '')}
+          </Month>
+          <Year data-testid="year">{survey.date.getFullYear()}</Year>
         </time>
-        <p>Qual é seu framework preferido?</p>
+        <p data-testid="question">{survey.question}</p>
       </BoxContent>
       <BoxFooter>Ver resultado</BoxFooter>
     </Container>
