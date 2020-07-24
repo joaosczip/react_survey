@@ -9,6 +9,7 @@ type Props = {
 };
 
 const SurveyItem: React.FC<Props> = ({ survey }) => {
+  const iconName = survey.didAnswer ? IconName.thumbUp : IconName.thumbDown;
   return (
     <Container>
       <BoxContent>
@@ -19,10 +20,12 @@ const SurveyItem: React.FC<Props> = ({ survey }) => {
             position: 'absolute',
             backgroundColor: 'green',
           }}
-          iconName={IconName.thumbUp}
+          iconName={iconName}
         />
         <time>
-          <Day data-testid="day">{survey.date.getDate()}</Day>
+          <Day data-testid="day">
+            {survey.date.getDate().toString().padStart(2, '0')}
+          </Day>
           <Month data-testid="month">
             {survey.date
               .toLocaleString('pt-BR', { month: 'short' })

@@ -30,4 +30,22 @@ describe('SurveyItem', () => {
     expect(screen.getByTestId('month')).toHaveTextContent('jan');
     expect(screen.getByTestId('year')).toHaveTextContent('2020');
   });
+  it('should render with correct values', () => {
+    const surveyModel = {
+      ...mockSurveyModel(),
+      didAnswer: false,
+      date: new Date('2019-05-03T00:00:00'),
+    };
+    makeSut(surveyModel);
+    expect(screen.getByTestId('icon')).toHaveProperty(
+      'src',
+      IconName.thumbDown
+    );
+    expect(screen.getByTestId('question')).toHaveTextContent(
+      surveyModel.question
+    );
+    expect(screen.getByTestId('day')).toHaveTextContent('03');
+    expect(screen.getByTestId('month')).toHaveTextContent('mai');
+    expect(screen.getByTestId('year')).toHaveTextContent('2019');
+  });
 });
