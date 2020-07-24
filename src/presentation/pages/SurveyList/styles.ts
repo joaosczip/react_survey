@@ -29,15 +29,4 @@ export const MainContent = styled.div`
     text-transform: uppercase;
     margin-bottom: 24px;
   }
-
-  ul {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    @media (max-width: 600px) {
-      flex-direction: column;
-    }
-  }
 `;
