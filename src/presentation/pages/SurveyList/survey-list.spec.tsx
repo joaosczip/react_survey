@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 
 import SurveyList from '.';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
@@ -59,5 +59,17 @@ describe('SurveyList', () => {
     expect(await screen.findByTestId('error')).toHaveTextContent(
       'Algo de errado aconteceu! Tente novamente.'
     );
+  });
+  it('should calls LoadSurveyList on reload', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy();
+    jest
+      .spyOn(loadSurveyListSpy, 'loadAll')
+      .mockRejectedValueOnce(new UnexpectedError());
+    makeSut(loadSurveyListSpy);
+    await waitFor(() =>
+      expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+    );
+    fireEvent.click(await screen.findByTestId('reload-button'));
+    await waitFor(() => expect(loadSurveyListSpy.callsCount).toBe(1));
   });
 });
