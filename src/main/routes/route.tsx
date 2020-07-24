@@ -4,13 +4,11 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ThemeProvider from '../../presentation/components/ThemeProvider';
 import GlobalStyle from '@/main/global';
 import { ApiContext } from '@/presentation/contexts/api/api-context';
-import { makeLogin } from '@/main/factories/pages/login/login-factory';
-import { makeSignUp } from '@/main/factories/pages/signup/signup-factory';
+import { makeLogin, makeSignUp, makeSurveyList } from '@/main/factories/pages';
 import {
   setCurrentAccountAdapter,
   getCurrentAccountAdapter,
 } from '@/main/adapters/current-account-adapter';
-import SurveyList from '../../presentation/pages/SurveyList';
 import PrivateRoute from '@/presentation/components/PrivateRoute';
 
 const Router: React.FC = () => {
@@ -26,7 +24,7 @@ const Router: React.FC = () => {
           <Switch>
             <Route path="/login" exact component={makeLogin} />
             <Route path="/signup" exact component={makeSignUp} />
-            <PrivateRoute path="/" exact component={SurveyList} />
+            <PrivateRoute path="/" exact component={makeSurveyList} />
           </Switch>
         </BrowserRouter>
         <GlobalStyle />
