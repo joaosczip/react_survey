@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import SurveyList from '.';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { LoadSurveyList } from '@/domain/usecases';
 import { SurveyModel } from '@/domain/models';
 import { makeSurveyListModel } from '@/domain/test';
+import { UnexpectedError } from '@/domain/errors';
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0;
@@ -20,8 +21,7 @@ type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy;
 };
 
-const makeSut = (): SutTypes => {
-  const loadSurveyListSpy = new LoadSurveyListSpy();
+const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(
     <ThemeProvider>
       <SurveyList loadSurveyList={loadSurveyListSpy} />
@@ -45,5 +45,19 @@ describe('SurveyList', () => {
     makeSut();
     const surveyList = await screen.findByTestId('survey-list');
     expect(surveyList.querySelectorAll('li:not(:empty)')).toHaveLength(2);
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument();
+  });
+  it('should render error on failure', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy();
+    jest
+      .spyOn(loadSurveyListSpy, 'loadAll')
+      .mockRejectedValueOnce(new UnexpectedError());
+    makeSut(loadSurveyListSpy);
+    await waitFor(() =>
+      expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+    );
+    expect(await screen.findByTestId('error')).toHaveTextContent(
+      'Algo de errado aconteceu! Tente novamente.'
+    );
   });
 });
