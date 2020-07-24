@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Footer from '@/presentation/components/Footer';
 import Header from '@/presentation/components/Header';
+import { LoadSurveyList } from '@/domain/usecases';
 import { Container, MainContent } from './styles';
 
-const SurveyList: React.FC = () => {
+type Props = {
+  loadSurveyList: LoadSurveyList;
+};
+
+const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
+  useEffect(() => {
+    (async () => {
+      await loadSurveyList.loadAll();
+    })();
+  }, []);
+
   return (
     <Container>
       <Header />
