@@ -6,7 +6,7 @@ import { useApi } from '@/presentation/contexts/api/api-context';
 const PrivateRoute: React.FC<RouteProps> = (props) => {
   const { getCurrentAccount } = useApi();
 
-  return getCurrentAccount().accessToken ? (
+  return getCurrentAccount()?.accessToken ? (
     <Route {...props} />
   ) : (
     <Route {...props} component={() => <Redirect to="/login" />} />
