@@ -4,14 +4,13 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import SurveyList from '.';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { LoadSurveyList } from '@/domain/usecases';
-import { SurveyModel } from '@/domain/models';
 import { makeSurveyListModel } from '@/domain/test';
 import { UnexpectedError } from '@/domain/errors';
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0;
   surveys = makeSurveyListModel();
-  async loadAll(): Promise<SurveyModel[]> {
+  async loadAll(): Promise<LoadSurveyList.Model[]> {
     this.callsCount++;
     return this.surveys;
   }

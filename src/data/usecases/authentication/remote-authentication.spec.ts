@@ -9,8 +9,6 @@ import {
 import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error';
 import { HttpStatusCode } from '@/data/protocols/http/http-reponse';
 import { UnexpectedError } from '@/domain/errors/unexpected-error';
-import { Authentication } from '@/domain/usecases';
-import { AccountModel } from '@/domain/models';
 
 type SutTypes = {
   sut: RemoteAuthentication;

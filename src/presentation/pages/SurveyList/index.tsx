@@ -5,7 +5,6 @@ import Header from '@/presentation/components/Header';
 import Error from './components/Error';
 import List from './components/List';
 import { LoadSurveyList } from '@/domain/usecases';
-import { SurveyModel } from '@/domain/models';
 import SurveyContext from './components/context';
 import { Container, MainContent } from './styles';
 
@@ -15,7 +14,7 @@ type Props = {
 
 const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
   const [state, setState] = useState({
-    surveys: [] as SurveyModel[],
+    surveys: [] as LoadSurveyList.Model[],
     error: '',
     reload: false,
   });

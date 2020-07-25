@@ -14,13 +14,13 @@ import { Router } from 'react-router-dom';
 import SignUp from '.';
 import { helper, ValidationStub, AddAccountSpy } from '@/presentation/test';
 import { EmailAddressAlreadyInUseError } from '@/domain/errors';
-import { AccountModel } from '@/domain/models';
 import { ApiContext } from '@/presentation/contexts/api/api-context';
+import { AddAccount } from '@/domain/usecases';
 
 type SutTypes = {
   sut: RenderResult;
   addAccountSpy: AddAccountSpy;
-  setCurrentAccountMock: (account: AccountModel) => void;
+  setCurrentAccountMock: (account: AddAccount.Model) => void;
 };
 
 type SutParams = {

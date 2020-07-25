@@ -14,13 +14,13 @@ import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { InvalidCredentialsError } from '@/domain/errors';
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test';
 import { ApiContext } from '@/presentation/contexts/api/api-context';
-import { AccountModel } from '@/domain/models';
+import { Authentication } from '@/domain/usecases';
 
 type SutTypes = {
   sut: RenderResult;
   validationStub: ValidationStub;
   authenticationSpy: AuthenticationSpy;
-  setCurrentAccountMock: (account: AccountModel) => void;
+  setCurrentAccountMock: (account: Authentication.Model) => void;
 };
 
 type SutParams = {
