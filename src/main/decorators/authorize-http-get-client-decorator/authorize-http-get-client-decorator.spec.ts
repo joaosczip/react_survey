@@ -1,17 +1,26 @@
+import faker from 'faker';
+
 import { AuthorizeHttpGetClientDecorator } from '@/main/decorators';
-import { mockGetRequest, GetStorageSpy } from '@/data/test';
+import { mockGetRequest, GetStorageSpy, HttpGetClientSpy } from '@/data/test';
+import { HttpGetClient } from '@/data/protocols/http';
 
 type SutTypes = {
   sut: AuthorizeHttpGetClientDecorator;
   getStorageSpy: GetStorageSpy;
+  httpGetClientSpy: HttpGetClientSpy;
 };
 
 const makeSut = (): SutTypes => {
   const getStorageSpy = new GetStorageSpy();
-  const sut = new AuthorizeHttpGetClientDecorator(getStorageSpy);
+  const httpGetClientSpy = new HttpGetClientSpy();
+  const sut = new AuthorizeHttpGetClientDecorator(
+    getStorageSpy,
+    httpGetClientSpy
+  );
   return {
     sut,
     getStorageSpy,
+    httpGetClientSpy,
   };
 };
 
@@ -21,5 +30,17 @@ describe('AuthorizeHttpGetClientDecorator', () => {
     const mockRequest = mockGetRequest();
     await sut.get(mockRequest);
     expect(getStorageSpy.key).toBe('account');
+  });
+  it('should not add headers if getStorage is invalid', async () => {
+    const { sut, httpGetClientSpy } = makeSut();
+    const httpRequest: HttpGetClient.Params = {
+      url: faker.internet.url(),
+      headers: {
+        [faker.database.column()]: faker.random.word(),
+      },
+    };
+    await sut.get(httpRequest);
+    expect(httpGetClientSpy.url).toBe(httpRequest.url);
+    expect(httpGetClientSpy.headers).toEqual(httpRequest.headers);
   });
 });
