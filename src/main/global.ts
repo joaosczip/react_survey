@@ -27,6 +27,8 @@ export default createGlobalStyle`
     border-radius: 8px;
     font-size: 16px;
     border: none;
+    padding: 0 16px;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;
