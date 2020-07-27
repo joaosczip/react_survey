@@ -1,18 +1,17 @@
 import React, { memo } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import logoImg from '@/presentation/assets/logo.svg';
 import { useApi } from '@/presentation/contexts/api/api-context';
+import { useLogout } from '@/presentation/hooks';
 import { Container, HeaderContent, Logout } from './styles';
 
 const Header: React.FC = () => {
-  const { setCurrentAccount, getCurrentAccount } = useApi();
-  const history = useHistory();
+  const { getCurrentAccount } = useApi();
+  const handleLogout = useLogout();
 
   const logout = (event: React.MouseEvent): void => {
     event.preventDefault();
-    setCurrentAccount(null);
-    history.replace('/login');
+    handleLogout();
   };
 
   return (
