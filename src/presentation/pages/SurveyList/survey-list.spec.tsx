@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history';
 import SurveyList from '.';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { LoadSurveyList } from '@/domain/usecases';
-import { makeSurveyListModel } from '@/domain/test';
+import { makeSurveyListModel, mockAccountModel } from '@/domain/test';
 import { UnexpectedError } from '@/domain/errors';
 import { ApiContext } from '@/presentation/contexts/api/api-context';
 
@@ -27,7 +27,12 @@ const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(
     <ThemeProvider>
       <Router history={createMemoryHistory()}>
-        <ApiContext.Provider value={{ setCurrentAccount: jest.fn() }}>
+        <ApiContext.Provider
+          value={{
+            setCurrentAccount: jest.fn(),
+            getCurrentAccount: () => mockAccountModel(),
+          }}
+        >
           <SurveyList loadSurveyList={loadSurveyListSpy} />
         </ApiContext.Provider>
       </Router>
