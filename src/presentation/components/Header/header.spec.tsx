@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, History } from 'history';
 import { Router } from 'react-router-dom';
 
 import Header from '.';
@@ -9,11 +9,12 @@ import { ApiContext } from '@/presentation/contexts/api/api-context';
 import { AccountModel } from '@/domain/models';
 
 type SutTypes = {
+  history: History;
   setCurrentAccountMock: (account: AccountModel) => Promise<void>;
 };
 
-const history = createMemoryHistory({ initialEntries: ['/'] });
 const makeSut = (): SutTypes => {
+  const history = createMemoryHistory({ initialEntries: ['/'] });
   const setCurrentAccountMock = jest.fn();
 
   render(
@@ -29,13 +30,14 @@ const makeSut = (): SutTypes => {
   );
 
   return {
+    history,
     setCurrentAccountMock,
   };
 };
 
 describe('Header', () => {
   it('should calls setCurrentAccount with null', () => {
-    const { setCurrentAccountMock } = makeSut();
+    const { history, setCurrentAccountMock } = makeSut();
     const logoutButton = screen.getByTestId('logout');
     fireEvent.click(logoutButton);
     expect(setCurrentAccountMock).toHaveBeenCalledWith(null);
