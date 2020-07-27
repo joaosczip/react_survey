@@ -1,11 +1,14 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import SurveyList from '.';
 import ThemeProvider from '@/presentation/components/ThemeProvider';
 import { LoadSurveyList } from '@/domain/usecases';
 import { makeSurveyListModel } from '@/domain/test';
 import { UnexpectedError } from '@/domain/errors';
+import { ApiContext } from '@/presentation/contexts/api/api-context';
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0;
@@ -23,7 +26,11 @@ type SutTypes = {
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(
     <ThemeProvider>
-      <SurveyList loadSurveyList={loadSurveyListSpy} />
+      <Router history={createMemoryHistory()}>
+        <ApiContext.Provider value={{ setCurrentAccount: jest.fn() }}>
+          <SurveyList loadSurveyList={loadSurveyListSpy} />
+        </ApiContext.Provider>
+      </Router>
     </ThemeProvider>
   );
 
