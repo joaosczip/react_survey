@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import { LoadSurveyList } from '@/domain/usecases';
-import { AccessDeniedError } from '@/domain/errors';
-import { useApi } from '@/presentation/contexts/api/api-context';
+import { useErrorHandler } from '@/presentation/hooks';
 import Footer from '@/presentation/components/Footer';
 import Header from '@/presentation/components/Header';
 import Error from './components/Error';
@@ -21,20 +19,15 @@ const SurveyList: React.FC<Props> = ({ loadSurveyList }) => {
     error: '',
     reload: false,
   });
-  const { setCurrentAccount } = useApi();
-  const history = useHistory();
+  const handleError = useErrorHandler((error: Error) =>
+    setState({ ...state, error: error.message })
+  );
 
   useEffect(() => {
     loadSurveyList
       .loadAll()
       .then((surveys) => setState({ ...state, surveys }))
-      .catch((error) => {
-        if (error instanceof AccessDeniedError) {
-          setCurrentAccount(null);
-          history.replace('/login');
-        }
-        setState({ ...state, error: error.message });
-      });
+      .catch(handleError);
   }, [state.reload]);
 
   return (
