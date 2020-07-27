@@ -13,7 +13,6 @@ export const MainContent = styled.div`
   flex-direction: column;
   align-self: center;
   max-width: 800px;
-  flex-grow: 1;
   align-items: flex-start;
   width: 100%;
   margin-top: 24px;

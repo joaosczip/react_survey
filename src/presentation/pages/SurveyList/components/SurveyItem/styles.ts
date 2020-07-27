@@ -2,17 +2,18 @@ import styled from 'styled-components';
 
 export const Container = styled.li`
   height: 250px;
+  width: 48%;
   background-color: ${(props) => props.theme.colors.white};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  /* flex-basis: 48%; */
   margin-bottom: 24px;
   box-shadow: 0px 1px 3px -1px ${(props) => props.theme.colors.black};
 
   @media (max-width: 600px) {
     flex-basis: 100%;
+    width: 100%;
   }
 `;
 
